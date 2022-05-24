@@ -14,7 +14,7 @@ interface Props {
 
 
 export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index }: Props) => {
-    
+
     ChangeTheme({
         id: [
             `cardComponent${index}`,
@@ -28,17 +28,22 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
         ], is: 'title'
     });
 
+    const url = window.location.host; 
+
 
     return (
         <div
             id={`cardComponent${index}`}
-            className={ shoppingCart ? 'cartItem' : 'cardComponent' }
+            className={shoppingCart ? 'cartItem' : 'cardComponent'}
             style={{
                 ...styles.cardComponent,
                 ...inlineStyles
             }}
         >
-            <img style={styles.cardComponentImg} src='../../assets/topRated2.jpg' />
+            <img
+                style={styles.cardComponentImg}
+                src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/topRated2.jpg' : '../../assets/topRated2.jpg'}
+            />
             <div style={styles.cardComponentInfo}>
                 <p
                     id={`titleCardComponent${index}`}
@@ -124,16 +129,16 @@ const styles = {
         flexDirection: 'column' as 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        
+
         border: '1px solid rgba(0, 0, 0, 0.5)',
         borderTop: '15px solid rgba(145, 14, 14)',
         borderRadius: '10px',
         boxShadow: '2px 2px 5px rgba(0, 0, 0, 90%)',
-        
+
         marginRight: '25px',
         marginBottom: '25px',
         padding: '10px',
-        
+
         color: 'black',
     },
     cardComponentImg: {
@@ -176,18 +181,18 @@ const styles = {
         justifyContent: 'space-around',
         alignItems: 'center',
         backgroundColor: 'rgb(145, 14, 14)',
-        
+
         padding: '5px 10px',
         margin: '15px 0',
         borderRadius: '5px',
-        
+
         cursor: 'pointer',
     },
     buttonCardComponent: {
         backgroundColor: 'transparent',
         fontWeight: 'bold',
         color: 'white',
-        
+
         borderRadius: '3px',
         border: '0px solid transparent',
         padding: '5px',

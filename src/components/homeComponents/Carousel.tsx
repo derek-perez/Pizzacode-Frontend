@@ -10,9 +10,11 @@ export const Carousel = () => {
         return ((height / 4) * 3);
     }
 
-    const carousel1 = '../assets/carousel1.jpg';
-    const carousel2 = '../assets/carousel2.jpg';
-    const carousel3 = '../assets/carousel3.jpg';
+    const url = window.location.host;
+
+    const carousel1 = (url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/carousel1.jpg' : '../assets/carousel1.jpg';
+    const carousel2 = (url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/carousel2.jpg' : '../assets/carousel2.jpg';
+    const carousel3 = (url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/carousel3.jpg' : '../assets/carousel3.jpg';
 
     
     return (

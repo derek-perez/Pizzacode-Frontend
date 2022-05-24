@@ -63,13 +63,18 @@ export const Navbar = () => {
 
   }
 
+  const url = window.location.host;
 
 
   return (
     <nav id='navBar' style={styles.navbar}>
       <div>
         <Link to='/'>
-          <img src='../assets/pizza-logo-dark.png' alt='Ir a inicio' style={styles.logo} />
+          <img
+            src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets-pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
+            alt='Ir a inicio'
+            style={styles.logo}
+          />
         </Link>
       </div>
 
@@ -81,7 +86,7 @@ export const Navbar = () => {
       </div>
 
       <div style={{ display: 'flex' }} className='linksDiv' >
-        <Link to='/' style={{...styles.navItem, paddingLeft: 0}}>
+        <Link to='/' style={{ ...styles.navItem, paddingLeft: 0 }}>
           <FontAwesomeIcon icon={faHome} />
           <span>Inicio</span>
         </Link>

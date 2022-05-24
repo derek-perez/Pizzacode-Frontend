@@ -1,6 +1,9 @@
-import React from 'react'
+
 
 export const CreditCardComponent = () => {
+
+    const url = window.location.host;
+
     return (
         <div style={styles.card}>
             <div style={styles.topCard}>
@@ -8,7 +11,10 @@ export const CreditCardComponent = () => {
                 <p style={styles.titleCard}>Banco de "no sé donde"</p>
             </div>
 
-            <img src='../../assets/chip-card.png' style={styles.chipImg} />
+            <img
+                src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/chip-card.png' : '../../assets/chip-card.png'}
+                style={styles.chipImg}
+            />
 
             <p style={styles.cardNumber}>1234 &nbsp;&nbsp; 5678 &nbsp;&nbsp; 9012 &nbsp;&nbsp; 3456</p>
             <div style={styles.sectionCardNumbers}>

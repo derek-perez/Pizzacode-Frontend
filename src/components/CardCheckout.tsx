@@ -2,13 +2,18 @@
 
 export const CardCheckout = ({ inlineStyles }: { inlineStyles?: object }) => {
 
+    const url = window.location.host;
+
     return (
         <div style={{
             ...styles.cardProduct,
-            ...(inlineStyles) ? inlineStyles: ''
+            ...(inlineStyles) ? inlineStyles : ''
         }}>
             <div style={styles.cardImgTitle}>
-                <img src='../../assets/topRated2.jpg' style={styles.imgProduct} />
+                <img
+                    src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/topRated2.jpg' : '../../assets/topRated2.jpg'}
+                    style={styles.imgProduct}
+                />
                 <h3 style={styles.infoTitle}>Pizza hawaiana</h3>
             </div>
             <div className='cardProductInfo' style={styles.cardProductInfo}>

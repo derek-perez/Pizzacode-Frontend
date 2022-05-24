@@ -48,10 +48,15 @@ export const CardContent = ({ whatIs, item }: Props) => {
         name: ['animate__fadeIn']
     });
 
+    const url = window.location.host;
+
 
     return (
         <div id={`card${item}`} style={styles.cardPromotion}>
-            <img style={styles.cardPromotionImg} src='../assets/topRated2.jpg' />
+            <img 
+                style={styles.cardPromotionImg} 
+                src={(url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/topRated2.jpg' : '../assets/topRated2.jpg'}
+            />
             {
                 (whatIs !== 'menuItemPreview') && (
                     <div style={styles.cardPromotionInfo}>

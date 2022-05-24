@@ -6,17 +6,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const RegisterScreen = () => {
 
-  const putOutline = ( div: string ) => {
-    if ( div === 'name' ) {
+  const putOutline = (div: string) => {
+    if (div === 'name') {
       document.getElementById("nameDiv")!.style.border = '1px solid blue'
-    } else if ( div === 'email' ) {
+    } else if (div === 'email') {
       document.getElementById("emailDiv")!.style.border = '1px solid blue'
-    } else if ( div === 'password' ) {
+    } else if (div === 'password') {
       document.getElementById("passwordDiv")!.style.border = '1px solid blue'
-    } else if ( div === 'password2' ) {
+    } else if (div === 'password2') {
       document.getElementById("password2Div")!.style.border = '1px solid blue'
     }
   }
+
+  const url = window.location.host;
+
 
   return (
     <div style={styles.container}>
@@ -50,7 +53,7 @@ export const RegisterScreen = () => {
           </form>
 
           <div style={styles.goToLogin}>
-            <img src='../../assets/register-image.jpg' />
+            <img src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/register-image.jpg' : '../../assets/register-image.jpg'} />
             <p>¿Ya tienes una cuenta? <Link to="/join/login">Inicia sesión</Link></p>
           </div>
         </div>

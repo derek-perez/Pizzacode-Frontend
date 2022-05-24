@@ -15,6 +15,9 @@ export const LoginScreen = () => {
     }
   }
 
+  const url = window.location.host;
+
+
   return (
     <div style={styles.container}>
       <h1 style={styles.titleForm}>Inicia sesión</h1>
@@ -36,7 +39,7 @@ export const LoginScreen = () => {
           </form>
 
           <div style={styles.goToLogin}>
-            <img src='../../assets/ingresar-image.jpg' />
+            <img src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/ingresar-image.jpg' : '../../assets/ingresar-image.jpg'} />
             <p>¿No tienes una cuenta? <Link to="/join/register">Regístrate</Link></p>
           </div>
         </div>

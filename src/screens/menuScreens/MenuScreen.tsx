@@ -25,13 +25,19 @@ export const MenuScreen = () => {
       'postresContainer'
     ],
     name: ['animate__zoomInDown']
-  })
+  });
+
+  const url = window.location.host;
+
 
   return (
     <div style={styles.container}>
       <div style={styles.imgContainer}>
         <div id='introMenu' style={styles.introContainer}>
-          <img src='../assets/pizza-logo-dark.png' style={styles.imgImgMain} />
+          <img
+            src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets-pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
+            style={styles.imgImgMain}
+          />
           <p style={styles.textImgMain}>Mira lo que tenemos para ofrecerte:</p>
         </div>
       </div>
@@ -201,7 +207,7 @@ const styles = {
     marginTop: '5px',
 
     scrollbarWidth: 'thin' as 'thin',
-    scrollbarColor: 'white transparent',   
+    scrollbarColor: 'white transparent',
   }
 
 }
