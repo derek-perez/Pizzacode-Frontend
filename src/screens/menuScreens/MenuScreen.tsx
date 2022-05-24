@@ -35,7 +35,7 @@ export const MenuScreen = () => {
       <div style={styles.imgContainer}>
         <div id='introMenu' style={styles.introContainer}>
           <img
-            src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets-pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
+            src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
             style={styles.imgImgMain}
           />
           <p style={styles.textImgMain}>Mira lo que tenemos para ofrecerte:</p>

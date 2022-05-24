@@ -1,7 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import {
-     Screen404,
      HomeScreen,
      MenuScreen,
      ContactoScreen,
@@ -41,7 +40,7 @@ export const Router = () => {
                     <Route path='/join/register' element={<RegisterScreen />} />
 
 
-                    <Route path='*' element={<Screen404 />} />
+                    <Route path='*' element={<Navigate to='/' />} />
                </Routes>
 
                <Footer />

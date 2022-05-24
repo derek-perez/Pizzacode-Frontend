@@ -40,7 +40,7 @@ export const Footer = () => {
 
           <img 
             style={styles.logo} 
-            src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets-pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
+            src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
             />
 
           <p>Derek Pérez | Copyright &copy;2022</p>
