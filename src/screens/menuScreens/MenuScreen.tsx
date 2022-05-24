@@ -134,7 +134,7 @@ const styles = {
     boxShadow: '0 5px 10px rgba(0, 0, 0, 0.7)',
     minHeight: '550px',
     maxHeight: '550px',
-    background: 'url(../assets/menuImg.jpg)',
+    background: 'url(./Pizzacode-Frontend/assets/menuImg.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
