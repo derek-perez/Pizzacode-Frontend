@@ -1,19 +1,21 @@
+import { useEffect } from 'react';
 
-import { useAnimation } from '../../hooks/useAnimation';
+import { useAnimation } from '../hooks/useAnimation';
 
-import {
-  AcompañamientoCard,
-  PromotionCard,
-  TopRatedComponent,
-  MenuItemPreview,
-  Carousel
-} from '../../components/homeComponents/';
+import { Carousel } from '../components/homeComponents/Carousel';
 
-import { ChangeTheme } from '../../helpers/changeTheme';
-import { useTheme } from '../../hooks/useTheme';
+import { ChangeTheme } from '../helpers/changeTheme';
+import { useTheme } from '../hooks/useTheme';
+import { CardContent } from '../components/homeComponents/CardContent';
 
 
 export const HomeScreen = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
   // Tema
   ChangeTheme({
     id: [
@@ -24,7 +26,6 @@ export const HomeScreen = () => {
       'menuPreviewContainer',
     ], is: 'div'
   });
-  
   ChangeTheme({
     id: [
       'promotionsTitle',
@@ -57,20 +58,8 @@ export const HomeScreen = () => {
   const { setProps } = useTheme();
 
   window.addEventListener('DOMContentLoad', (e) => {
-    setProps({e, justNow: true});
-  })
-
-  const promotion1 = '../assets/promotion1.jpg';
-  const promotion2 = '../assets/promotion2.jpg';
-  const promotion3 = '../assets/promotion3.jpg';
-
-  const acompañamiento1 = '../assets/acompañamiento1.jpg';
-  const acompañamiento2 = '../assets/acompañamiento2.jpg';
-  const acompañamiento3 = '../assets/acompañamiento3.jpg';
-
-  const topRated1 = '../assets/topRated1.jpg';
-  const topRated2 = '../assets/topRated2.jpg';
-  const topRated3 = '../assets/topRated3.jpg';
+    setProps({ e, justNow: true });
+  });
 
 
   return (
@@ -91,9 +80,9 @@ export const HomeScreen = () => {
         <h2 id='promotionsTitle' style={styles.title}>Promociones</h2>
 
         <div style={styles.cards}>
-          <PromotionCard img={promotion1} item={'1'} />
-          <PromotionCard img={promotion2} item={'2'} />
-          <PromotionCard img={promotion3} item={'3'} />
+          <CardContent whatIs='promotion' item={'1'} />
+          <CardContent whatIs='promotion' item={'2'} />
+          <CardContent whatIs='promotion' item={'3'} />
         </div>
 
       </div>
@@ -105,9 +94,9 @@ export const HomeScreen = () => {
         <h2 id='acompañamientosTitle' style={styles.title}>Acompaña tu pizza con...</h2>
 
         <div style={styles.cards}>
-          <AcompañamientoCard img={acompañamiento1} item={'1'} />
-          <AcompañamientoCard img={acompañamiento2} item={'2'} />
-          <AcompañamientoCard img={acompañamiento3} item={'3'} />
+          <CardContent whatIs='acompañamiento' item={'4'} />
+          <CardContent whatIs='acompañamiento' item={'5'} />
+          <CardContent whatIs='acompañamiento' item={'6'} />
         </div>
 
         <div style={styles.buttonMore}>
@@ -123,9 +112,9 @@ export const HomeScreen = () => {
         <h2 id='topRatedTitle' style={styles.title}>Pizzas mejores valoradas:</h2>
 
         <div style={styles.cards}>
-          <TopRatedComponent img={topRated1} item={'1'} />
-          <TopRatedComponent img={topRated2} item={'2'} />
-          <TopRatedComponent img={topRated3} item={'3'} />
+          <CardContent whatIs='topRated' item='7' />
+          <CardContent whatIs='topRated' item='8' />
+          <CardContent whatIs='topRated' item='9' />
         </div>
 
         <div style={styles.buttonMore}>
@@ -155,9 +144,9 @@ export const HomeScreen = () => {
         </h4>
 
         <div style={styles.cards}>
-          <MenuItemPreview img={topRated1} item={'1'} />
-          <MenuItemPreview img={topRated2} item={'2'} />
-          <MenuItemPreview img={topRated3} item={'3'} />
+          <CardContent whatIs='menuItemPreview' item='10' />
+          <CardContent whatIs='menuItemPreview' item='11' />
+          <CardContent whatIs='menuItemPreview' item='12' />
         </div>
 
       </div>

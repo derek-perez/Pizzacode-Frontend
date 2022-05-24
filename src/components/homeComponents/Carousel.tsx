@@ -1,5 +1,5 @@
 
-import { ItemCarousel } from './index';
+import { ItemCarousel } from './ItemCarousel';
 
 
 export const Carousel = () => {

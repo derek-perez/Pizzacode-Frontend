@@ -14,7 +14,7 @@ import {
 
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-import { PagarScreen } from '../screens/publicScreens/PagarScreen';
+import { PagarScreen } from '../screens/PagarScreen';
 import { ChangeTheme } from '../helpers/changeTheme';
 
 

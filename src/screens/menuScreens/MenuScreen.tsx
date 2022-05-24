@@ -5,6 +5,11 @@ import { useAnimation } from "../../hooks/useAnimation"
 
 export const MenuScreen = () => {
 
+  if (window.location.pathname.slice(1) === 'menu') {
+    window.scrollTo(0, 0);
+    console.log(true)
+  }
+
   ChangeTheme({
     id: [
       'titlePizzas',

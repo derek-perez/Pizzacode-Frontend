@@ -1,5 +1,8 @@
+import { useState } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "../../hooks/useForm";
+
 
 // TODO: Agregar llamada a funcion para guardar datos
 interface ItemProps {
@@ -16,6 +19,7 @@ interface ItemProps {
 export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setBoolean, setButtonsContainer }: ItemProps) => {
 
     const { onChange } = useForm({});
+    const [text, setText] = useState(contentValue);
 
     const handleClick = () => {
         setBoolean(false);
@@ -24,9 +28,7 @@ export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setBoo
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
-
-        let name = e.target.name;
-        let value = e.target.value;
+        setText(e.target.value);
     }
 
 
@@ -53,6 +55,8 @@ export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setBoo
                         <input
                             id={nameInput}
                             style={styles.input}
+                            autoFocus
+                            value={text}
                             onChange={handleChange}
                             name={nameInput}
                             type='text'

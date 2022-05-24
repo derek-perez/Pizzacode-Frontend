@@ -1,8 +1,12 @@
 
 
-export const CardCheckout = () => {
+export const CardCheckout = ({ inlineStyles }: { inlineStyles?: object }) => {
+
     return (
-        <div style={styles.cardProduct}>
+        <div style={{
+            ...styles.cardProduct,
+            ...(inlineStyles) ? inlineStyles: ''
+        }}>
             <div style={styles.cardImgTitle}>
                 <img src='../../assets/topRated2.jpg' style={styles.imgProduct} />
                 <h3 style={styles.infoTitle}>Pizza hawaiana</h3>

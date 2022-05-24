@@ -21,6 +21,14 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
         ], is: 'card'
     });
 
+    ChangeTheme({
+        id: [
+            `titleCardComponent${index}`,
+            `priceCardComponent${index}`
+        ], is: 'title'
+    });
+
+
     return (
         <div
             id={`cardComponent${index}`}
@@ -33,6 +41,7 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
             <img style={styles.cardComponentImg} src='../../assets/topRated2.jpg' />
             <div style={styles.cardComponentInfo}>
                 <p
+                    id={`titleCardComponent${index}`}
                     style={{
                         fontSize: '25px',
                         marginTop: '5px',
@@ -47,7 +56,7 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
                     (fromMenu) && (
                         <p
                             style={{
-                                fontSize: '18px',
+                                fontSize: '15px',
                                 padding: '0 15px'
                             }}
                         >
@@ -72,8 +81,9 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
                 {
                     (fromMenu) && (
                         <p
+                            id={`priceCardComponent${index}`}
                             style={{
-                                fontSize: '25px',
+                                fontSize: '20px',
                                 marginTop: '5px',
                                 color: 'rgb(145, 14, 14)',
                                 textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)'
@@ -107,20 +117,24 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
 
 const styles = {
     cardComponent: {
-        alignItems: 'center',
-        border: '1px solid rgba(0, 0, 0, 0.5)',
-        borderRadius: '5px',
-        boxShadow: '2px 2px 5px rgba(0, 0, 0, 90%)',
-        color: 'black',
+        minWidth: '350px',
         backgroundColor: 'white',
+
         display: 'flex',
         flexDirection: 'column' as 'column',
         justifyContent: 'space-between',
-        padding: '10px',
-        minWidth: '350px',
+        alignItems: 'center',
+        
+        border: '1px solid rgba(0, 0, 0, 0.5)',
         borderTop: '15px solid rgba(145, 14, 14)',
+        borderRadius: '10px',
+        boxShadow: '2px 2px 5px rgba(0, 0, 0, 90%)',
+        
         marginRight: '25px',
-        marginBottom: '25px'
+        marginBottom: '25px',
+        padding: '10px',
+        
+        color: 'black',
     },
     cardComponentImg: {
         width: '90%',
@@ -155,28 +169,32 @@ const styles = {
     },
 
     containerLink: {
+        width: '90%',
+
         display: 'flex',
         flexDirection: 'row' as 'row',
         justifyContent: 'space-around',
-        width: '100%',
-        padding: '0 10px',
         alignItems: 'center',
+        backgroundColor: 'rgb(145, 14, 14)',
+        
+        padding: '5px 10px',
+        margin: '15px 0',
+        borderRadius: '5px',
+        
         cursor: 'pointer',
-        marginTop: '5px',
     },
     buttonCardComponent: {
-        borderRadius: '3px',
         backgroundColor: 'transparent',
-        color: 'rgb(145, 14, 14)',
         fontWeight: 'bold',
-        fontSize: '20px',
+        color: 'white',
+        
+        borderRadius: '3px',
         border: '0px solid transparent',
         padding: '5px',
     },
     iconCardComponent: {
-        color: 'rgb(145, 14, 14)',
+        color: 'white',
         fontWeight: 'bold',
-        fontSize: '20px',
     }
 
 }

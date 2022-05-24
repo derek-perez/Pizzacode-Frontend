@@ -14,7 +14,7 @@ body {
 }
 
 .darkModeTitle {
-    text-shadow: 1px 1px 3px rgb(0 0 0) !important;
+    text-shadow: 1px 1px 2px black !important;
     color: white !important;
     font-weight: bolder !important;
 }
@@ -39,6 +39,7 @@ body {
     border-width: 2px !important;
 }
 
+
 .darkModeLittleMenuItemActive {
     color: #fff !important;
 }
@@ -46,6 +47,15 @@ body {
 .darkModeLittleMenuItem {
     color: #888 !important;
 }
+
+.clearModeLittleMenuItemActive {
+    color: rgb(145, 14, 14) !important;
+}
+.clearModeLittleMenuItem {
+    color: rgba(0, 0, 0, 0.7) !important;
+}
+
+
 
 
 /* Otros */

@@ -1,6 +1,7 @@
 {
+  "homepage": "https://chugus.github.io/Pizzacode-Frontend",
   "name": "pizzacode",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -18,6 +19,7 @@
     "@types/react-dom": "^18.0.0",
     "animate.css": "^4.1.1",
     "babel-plugin-macros": "^3.1.0",
+    "gh-pages": "^4.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
@@ -29,7 +31,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

@@ -9,11 +9,16 @@ import {
   DireccionesContent,
   TarjetasContent,
   PagosContent,
-} from '../../components/perfilScreen/';
+} from '../../components/perfilScreen';
 
 
 
 export const CuentaScreen = () => {
+
+  if (window.location.pathname.split('/')[1] === 'cuenta') {
+    window.scrollTo(0, 0);
+    console.log(true)
+  }
 
   const { item } = useParams();
 

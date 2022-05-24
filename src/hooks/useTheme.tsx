@@ -123,6 +123,7 @@ export const useTheme = () => {
 
 
     return {
+        themeChange,
         setProps
     }
 }

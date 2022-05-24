@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CardComponent } from '../../components/screensComponents/CardComponent';
 import { useForm } from '../../hooks/useForm';
+import { ChangeTheme } from '../../helpers/changeTheme';
 
 
 
@@ -37,6 +38,10 @@ export const BuscarScreen = () => {
 
   }
 
+  ChangeTheme({
+    id: ['textSearch'], is: 'title'
+  })
+
 
   return (
     <div style={styles.container}>
@@ -66,17 +71,17 @@ export const BuscarScreen = () => {
       </div>
 
       <div style={styles.divResults}>
-        <h3 style={styles.title}> {search} </h3>
+        <h3 id='textSearch' style={styles.title}> {search} </h3>
 
         <div style={styles.containerCards}>
 
           <div className='menuItemContainer' style={styles.cards}>
-            <CardComponent fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent fromMenu={true} inlineStyles={{ width: '30%' }} />
+            <CardComponent index={'20'} fromMenu={true} inlineStyles={{ width: '30%' }} />
+            <CardComponent index={'21'} fromMenu={true} inlineStyles={{ width: '30%' }} />
+            <CardComponent index={'22'} fromMenu={true} inlineStyles={{ width: '30%' }} />
+            <CardComponent index={'23'} fromMenu={true} inlineStyles={{ width: '30%' }} />
+            <CardComponent index={'24'} fromMenu={true} inlineStyles={{ width: '30%' }} />
+            <CardComponent index={'25'} fromMenu={true} inlineStyles={{ width: '30%' }} />
           </div>
         </div>
 

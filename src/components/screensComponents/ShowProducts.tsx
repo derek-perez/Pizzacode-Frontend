@@ -21,6 +21,7 @@ export const ShowProducts = () => {
             'titlePizzasMenu',
             'titleAcompañamientosMenu',
             'titlePostresMenu',
+            'closeWindow',
         ], is: 'title'
     })
 
@@ -45,7 +46,12 @@ export const ShowProducts = () => {
 
     return (
         <div id='showProducts' style={styles.showProducts}>
-            <FontAwesomeIcon style={styles.close} onClick={closeWindow} icon={faClose} />
+            <FontAwesomeIcon 
+                id='closeWindow'
+                style={styles.close} 
+                onClick={closeWindow} 
+                icon={faClose}
+            />
             <h3 id='titleProducts' style={styles.showProductsTitle}>Escoje algún producto</h3>
 
             <div className='menuItemContainerRed' style={styles.products}>
@@ -116,7 +122,6 @@ const styles = {
         position: 'fixed' as 'fixed',
         top: '30px',
         right: '20px',
-        color: 'rgb(145, 14, 14)',
         cursor: 'pointer',
         fontSize: '30px'
     },

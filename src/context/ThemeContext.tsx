@@ -9,7 +9,7 @@ export interface ThemeContextProps {
 export const ThemeContext = createContext({} as ThemeContextProps);
 
 export const ThemeContextProvider = ({ children }: any) => {
-    const [themeChange, setThemeChange] = useState('predetermined');
+    const [themeChange, setThemeChange] = useState('');
 
     return (
         <ThemeContext.Provider 

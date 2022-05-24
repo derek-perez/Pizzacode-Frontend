@@ -1,9 +1,15 @@
+import { useEffect } from "react";
 
 import { ContactoComponent } from "../../components/screensComponents/ContactoComponent"
 import { ChangeTheme } from '../../helpers/changeTheme';
 
 
 export const ContactoScreen = () => {
+
+  if (window.location.pathname.slice(1) === 'contacto') {
+    window.scrollTo(0, 0);
+    console.log(true)
+  }
 
   ChangeTheme({
     id: ['titleMaps', 'titleContacts'], is: 'title'

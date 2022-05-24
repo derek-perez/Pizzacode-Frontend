@@ -3,12 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { CardCheckout } from "../../components/perfilScreen/CardCheckout";
+import { CardCheckout } from "../components/CardCheckout";
+import { ChangeTheme } from "../helpers/changeTheme";
 
 
 export const PagarScreen = () => {
 
     const navigate = useNavigate();
+
+    ChangeTheme({
+        id: [
+            'titlePagar',
+            'iconGoBack',
+        ], is: 'title'
+    })
+
 
     return (
         <div style={styles.container}>
@@ -18,9 +27,9 @@ export const PagarScreen = () => {
                     navigate('/carrito');
                 }}
             >
-                <FontAwesomeIcon icon={faArrowLeft} />
+                <FontAwesomeIcon id='iconGoBack' icon={faArrowLeft} />
             </i>
-            <h1 style={styles.title}>Verificar compra:</h1>
+            <h1 id='titlePagar' style={styles.title}>Verificar compra:</h1>
 
             <div id='payDivsContent' style={styles.content}>
                 <div className='divsPay' style={styles.contentLeft}>

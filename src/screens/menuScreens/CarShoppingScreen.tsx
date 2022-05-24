@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { CardComponent } from '../../components/screensComponents/CardComponent';
+import { CardCheckout } from '../../components/CardCheckout';
 import { ShowProducts } from '../../components/screensComponents/ShowProducts';
 import { ChangeTheme } from '../../helpers/changeTheme';
 
 
 export const CarShoppingScreen = () => {
+
+  if (window.location.pathname.slice(1) === 'carrito') {
+    window.scrollTo(0, 0);
+    console.log(true)
+  }
 
   ChangeTheme({
     id: ['titleCart'], is: 'title'
@@ -63,9 +68,33 @@ export const CarShoppingScreen = () => {
       </div>
 
       <div className='menuItemContainerRed' style={styles.containerProducts}>
-        <CardComponent index={'40'} shoppingCart={true} inlineStyles={{ width: '30%', minWidth: '275px' }} />
-        <CardComponent index={'41'} shoppingCart={true} inlineStyles={{ width: '30%', minWidth: '275px' }} />
-        <CardComponent index={'42'} shoppingCart={true} inlineStyles={{ width: '30%', minWidth: '275px' }} />
+        <CardCheckout
+          inlineStyles={{
+            width: '45%',
+            border: '2px solid rgb(145, 14, 14)',
+            borderRadius: 10,
+            minWidth: '472px',
+            boxShadow: '3px 3px 8px rgb(0 0 0 / 50%)'
+          }}
+        />
+        <CardCheckout
+          inlineStyles={{
+            width: '45%',
+            border: '2px solid rgb(145, 14, 14)',
+            borderRadius: 10,
+            minWidth: '472px',
+            boxShadow: '3px 3px 8px rgb(0 0 0 / 50%)'
+          }}
+        />
+        <CardCheckout
+          inlineStyles={{
+            width: '45%',
+            border: '2px solid rgb(145, 14, 14)',
+            borderRadius: 10,
+            minWidth: '472px',
+            boxShadow: '3px 3px 8px rgb(0 0 0 / 50%)'
+          }}
+        />
       </div>
 
       {
@@ -142,7 +171,6 @@ const styles = {
     borderRadius: '5px',
     padding: '15px',
     border: '1px solid rgba(0, 0, 0, 0.5)',
-    backgroundColor: 'rgb(33, 33, 60)',
     boxShadow: 'inset 0 0 7px rgba(0, 0, 0, 80%)',
 
     scrollbarWidth: 'thin' as 'thin',

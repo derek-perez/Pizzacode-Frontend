@@ -151,12 +151,14 @@ const styles = {
     containerContact: {
         minWidth: '300px',
         width: '45%',
-        borderTop: '1px solid rgb(145, 14, 14)',
-        padding: '10px',
-        margin: '15px',
+        
         display: 'flex',
         flexDirection: 'column' as 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        
+        borderTop: '2px solid rgb(145, 14, 14)',
+        padding: '10px',
+        margin: '15px',
     },
     titleContainer: {
         fontWeight: 'bold',
