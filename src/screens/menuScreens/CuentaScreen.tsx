@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { faCreditCard, faLock, faMapLocationDot, faReceipt, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -15,12 +16,9 @@ import {
 
 export const CuentaScreen = () => {
 
-  if (window.location.pathname.split('/')[1] === 'cuenta') {
-    window.scrollTo(0, 0);
-    console.log(true)
-  }
-
+  const [auth, setAuth] = useState(false);
   const { item } = useParams();
+
 
   return (
     <div id='cuentaDiv' style={styles.container}>

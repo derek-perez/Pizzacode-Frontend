@@ -59,7 +59,7 @@ export const MenuResponsive = () => {
 
     return (
         <div id='menuResponsive' style={styles.container}>
-            <div style={styles.menu}>
+            <div id='menuResponsiveContent' style={styles.menu}>
                 <h2 style={styles.title}>Menú</h2>
                 <i
                     id='menuClose'

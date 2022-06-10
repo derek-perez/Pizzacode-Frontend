@@ -1,132 +1,151 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+
+import { CartContext } from '../../context/CartContext';
 
 import { useAnimation } from '../../hooks/useAnimation';
 import { ChangeTheme } from '../../helpers/changeTheme';
 
 import 'animate.css';
+import { PagarCardsContext } from '../../context/PagarCardsContext';
 
 
 interface Props {
-    whatIs: string;
-    item: string;
+    animation?: string;
+    productoID: string;
+    nombre: string;
+    imagen: string;
+    descripcion: string;
+    precio?: string;
+    cuentaAtras?: string;
+    fromCar?: boolean;
 }
 
-export const CardContent = ({ whatIs, item }: Props) => {
+export const CardContent = ({ animation, productoID, nombre, imagen, descripcion, precio, cuentaAtras, fromCar }: Props) => {
 
-    const [description, setDescription] = useState('');
+    const { setStore } = useContext(CartContext);
+    const [cantidad, setCantidad] = useState(0);
+
+    const almacenado = JSON.parse(localStorage.getItem('productos') || '[]');
 
     useEffect(() => {
-
-        if (whatIs === 'promotion') {
-            setDescription('¡2 pizzas grandes de hasta 2 ingredientes por $299!');
-        } else if (whatIs === 'acompañamiento') {
-            setDescription('¡250g de papas a la francesa con la opción de agregar 50g con solo $25!');
-        } else if (whatIs === 'topRated') {
-            setDescription('Esta pizzas está hecha con ingredientes de calidad y con una preparación de calidad. ¿Quiéres saber los ingredientes?');
-        }
-
+        almacenado !== [] && (
+            almacenado.map((prod: any) => {
+                prod.producto._id === productoID && setCantidad(1)
+            })
+        )
     }, [])
-
-
-    ChangeTheme({
-        id: [`card${item}`],
-        is: 'card'
-    });
 
     ChangeTheme({
         id: [
-            `titleCard${item}`,
-            `titleMenuItem${item}`
+            `card${productoID}`
+        ], is: 'card'
+    });
+    ChangeTheme({
+        id: [
+            `titleCard${productoID}`,
+            `precio${productoID}`
         ],
         is: 'title'
     });
 
     useAnimation({
-        element: [`card${item}`],
-        name: ['animate__fadeIn']
+        element: [`card${productoID}`],
+        name: [animation ? animation : 'animate__fadeIn']
     });
 
-    const url = window.location.host;
+    const handleClick = () => {
+        if (cantidad < 1) {
+            setStore(productoID);
+            setCantidad(cantidad + 1);
+
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div style={{margin: '10px 0'}} class="alert alert-success alert-dismissible animate__animated animate__fadeInLeft" role="alert">`,
+                `   <div>Se ha agregado correctamente al carrito</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            document.getElementById('alertCarrito')?.append(wrapper);
+            document.getElementById('alertCarrito')?.classList.remove('hidden');
+
+            setTimeout(() => {
+                wrapper.remove();
+            }, 3000);
+        }
+    }
 
 
     return (
-        <div id={`card${item}`} style={styles.cardPromotion}>
-            <img 
-                style={styles.cardPromotionImg} 
-                src={(url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/topRated2.jpg' : '../assets/topRated2.jpg'}
+        <div
+            id={`card${productoID}`}
+            className='cardComponent'
+            style={{
+                ...styles.cardPromotion,
+                opacity: fromCar ? 1 : 0
+            }}
+        >
+            <img
+                style={styles.cardPromotionImg}
+                src={imagen}
+                alt={nombre}
             />
-            {
-                (whatIs !== 'menuItemPreview') && (
-                    <div style={styles.cardPromotionInfo}>
-                        <p
-                            id={`titleCard${item}`}
-                            className='titleCard'
-                            style={{
-                                fontSize: '25px',
-                                marginTop: '5px',
-                                color: 'rgb(145, 14, 14)',
-                                textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)'
-                            }}
-                        >
-                            2 Pizzas grandes
-                        </p>
-                        <p
-                            style={{
-                                fontSize: '16px',
-                                padding: '0 15px'
-                            }}
-                        >
-                            {description}
-                        </p>
-                    </div>
-                )
-            }
+            <div style={styles.cardPromotionInfo}>
+                <p
+                    id={`titleCard${productoID}`}
+                    className='titleCard'
+                    style={{
+                        fontSize: '20px',
+                        margin: '10px 0',
+                        color: 'rgb(145, 14, 14)',
+                        textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)',
+                        padding: '0 20px'
+                    }}
+                >
+                    {nombre}
+                </p>
+                <p
+                    style={{
+                        fontSize: '16px',
+                        padding: '15px 15px 0 15px'
+                    }}
+                >
+                    {descripcion}
+                </p>
+            </div>
 
             {
-                (whatIs === 'promotion') && (
+                (precio !== undefined) && (
                     <p
-                        id={`oferta${item}`}
+                        id={`precio${productoID}`}
                         style={styles.oferta}
                     >
-                        05:15:15
+                        ${precio}
                     </p>
                 )
             }
 
             {
-                (whatIs === 'menuItemPreview') && (
-                    <div style={styles.menuItemPreviewInfo}>
-                        <p
-                            id={`titleMenuItem${item}`}
-                            className='titleCard'
-                            style={{
-                                fontSize: '25px',
-                                marginTop: '5px',
-                                color: 'rgb(145, 14, 14)',
-                                textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)'
-                            }}
-                        >
-                            Pizzas
-                        </p>
-                        <ul style={styles.pizzasList}>
-                            <li>Hawaiana</li>
-                            <li>Pepperoni</li>
-                            <li>Mexicana</li>
-                            <li>Italiana</li>
-                            <li>4 quesos</li>
-                            <li>Vegetariana</li>
-                        </ul>
-                    </div>
+                (cuentaAtras !== '') && (
+                    <p
+                        style={styles.oferta}
+                    >
+                        {cuentaAtras}
+                    </p>
                 )
             }
 
-            <div style={styles.containerLink}>
+            <div
+                className='btn btn-danger btnCard'
+                style={styles.containerLink}
+                onClick={handleClick}
+            >
                 <button
                     style={styles.buttonCardPromotion}
                 >
-                    Aprovechar oferta
+                    Agregar al carrito
                 </button>
                 <FontAwesomeIcon
                     icon={solid('arrow-right')}
@@ -147,21 +166,21 @@ const styles = {
         flexDirection: 'column' as 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        
+
         border: '1px solid rgba(0, 0, 0, 0.5)',
         borderTop: '15px solid rgba(145, 14, 14)',
         borderRadius: '10px',
         boxShadow: '0px 2px 10px rgba(0, 0, 0, 30%)',
-        
+
         margin: '20px',
         padding: '10px',
-        
-        color: 'black',
-        opacity: 0,
+
+        color: 'black'
     },
     cardPromotionImg: {
         width: '90%',
-        maxHeight: '200px',
+        height: '165px',
+        maxHeight: '185px',
         borderRadius: '5px',
         marginTop: '10px'
     },
@@ -169,9 +188,9 @@ const styles = {
         textAlign: 'center' as 'center',
     },
     oferta: {
-        fontSize: '18px',
+        fontSize: '16px',
         color: 'rgb(145, 14, 14)',
-        marginBottom: '0'
+        marginBottom: '10px'
     },
 
     menuItemPreviewInfo: {
@@ -193,18 +212,18 @@ const styles = {
         justifyContent: 'space-around',
         alignItems: 'center',
         backgroundColor: 'rgb(145, 14, 14)',
-        
+
         padding: '0 10px',
         margin: '15px 0',
         borderRadius: '5px',
-        
+
         cursor: 'pointer',
     },
     buttonCardPromotion: {
         backgroundColor: 'transparent',
         fontWeight: 'bold',
         color: 'white',
-        
+
         borderRadius: '3px',
         border: '0px solid transparent',
         padding: '5px',

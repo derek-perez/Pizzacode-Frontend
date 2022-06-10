@@ -1,112 +1,175 @@
-import { CardComponent } from "../../components/screensComponents/CardComponent"
-import { ChangeTheme } from "../../helpers/changeTheme"
-import { useAnimation } from "../../hooks/useAnimation"
+import { useEffect, useState } from "react";
+import { ChangeTheme } from "../../helpers/changeTheme";
 
+import { Producto } from '../../interfaces/interfaces';
+import { ItemMenu } from "../../components/screensComponents/ItemMenu";
+import pizzaApi from "../../api/pizzaApi";
+
+
+interface MenuProps {
+  _id: string;
+  nombre: string;
+  titulo: string;
+  productos: string[];
+}
 
 export const MenuScreen = () => {
 
-  if (window.location.pathname.slice(1) === 'menu') {
+  const [categorias, setCategorias] = useState([] as MenuProps[]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
-    console.log(true)
-  }
+  }, [])
+
+  const themeChange = localStorage.getItem('themeApp');
 
   ChangeTheme({
     id: [
-      'titlePizzas',
-      'titleAcompañamientos',
-      'titlePostres',
-    ], is: 'title'
-  })
-
-  useAnimation({
-    element: [
-      'pizzasContainer',
-      'acompañamientosContainer',
-      'postresContainer'
-    ],
-    name: ['animate__zoomInDown']
+      'pizzasLinkContainer',
+      'acompañamientosLinkContainer',
+      'postresLinkContainer',
+    ], is: 'littleMenuItem'
   });
 
-  const url = window.location.host;
 
+  const changeActive = (e: string) => {
+    // Elementos
+    const pizzasLinkContainer = document.getElementById('pizzasLinkContainer') as HTMLElement;
+    const acompañamientosLinkContainer = document.getElementById('acompañamientosLinkContainer') as HTMLElement;
+    const postresLinkContainer = document.getElementById('postresLinkContainer') as HTMLElement;
+
+    const menuPizzas = document.getElementById('menuPizzas');
+    const menuAcompañamientos = document.getElementById('menuAcompañamientos');
+    const menuPostres = document.getElementById('menuPostres');
+
+    if (themeChange === 'dark') {
+      if (e === 'pizzasLinkContainer') {
+        acompañamientosLinkContainer.classList.replace('darkModeLittleMenuItemActive', 'darkModeLittleMenuItem');
+        postresLinkContainer.classList.replace('darkModeLittleMenuItemActive', 'darkModeLittleMenuItem');
+
+        pizzasLinkContainer.classList.replace('darkModeLittleMenuItem', 'darkModeLittleMenuItemActive');
+
+        menuPizzas?.classList.remove('hidden');
+        menuAcompañamientos?.classList.add('hidden');
+        menuPostres?.classList.add('hidden');
+
+      } else if (e === 'acompañamientosLinkContainer') {
+        postresLinkContainer.classList.replace('darkModeLittleMenuItemActive', 'darkModeLittleMenuItem');
+        pizzasLinkContainer.classList.replace('darkModeLittleMenuItemActive', 'darkModeLittleMenuItem');
+
+        acompañamientosLinkContainer.classList.replace('darkModeLittleMenuItem', 'darkModeLittleMenuItemActive');
+
+        menuPizzas?.classList.add('hidden');
+        menuAcompañamientos?.classList.remove('hidden');
+        menuPostres?.classList.add('hidden');
+
+      } else if (e === 'postresLinkContainer') {
+        pizzasLinkContainer.classList.replace('darkModeLittleMenuItemActive', 'darkModeLittleMenuItem');
+        acompañamientosLinkContainer.classList.replace('darkModeLittleMenuItemActive', 'darkModeLittleMenuItem');
+
+        postresLinkContainer.classList.replace('darkModeLittleMenuItem', 'darkModeLittleMenuItemActive');
+
+        menuPizzas?.classList.add('hidden');
+        menuAcompañamientos?.classList.add('hidden');
+        menuPostres?.classList.remove('hidden');
+      }
+
+    }
+
+    if (themeChange === 'clear') {
+      if (e === 'pizzasLinkContainer') {
+        acompañamientosLinkContainer.classList.replace('clearModeLittleMenuItemActive', 'clearModeLittleMenuItem');
+        postresLinkContainer.classList.replace('clearModeLittleMenuItemActive', 'clearModeLittleMenuItem');
+
+        pizzasLinkContainer.classList.replace('clearModeLittleMenuItem', 'clearModeLittleMenuItemActive');
+
+        menuPizzas?.classList.remove('hidden');
+        menuAcompañamientos?.classList.add('hidden');
+        menuPostres?.classList.add('hidden');
+
+      } else if (e === 'acompañamientosLinkContainer') {
+        postresLinkContainer.classList.replace('clearModeLittleMenuItemActive', 'clearModeLittleMenuItem');
+        pizzasLinkContainer.classList.replace('clearModeLittleMenuItemActive', 'clearModeLittleMenuItem');
+
+        acompañamientosLinkContainer.classList.replace('clearModeLittleMenuItem', 'clearModeLittleMenuItemActive');
+
+        menuPizzas?.classList.add('hidden');
+        menuAcompañamientos?.classList.remove('hidden');
+        menuPostres?.classList.add('hidden');
+
+      } else if (e === 'postresLinkContainer') {
+        pizzasLinkContainer.classList.replace('clearModeLittleMenuItemActive', 'clearModeLittleMenuItem');
+        acompañamientosLinkContainer.classList.replace('clearModeLittleMenuItemActive', 'clearModeLittleMenuItem');
+
+        postresLinkContainer.classList.replace('clearModeLittleMenuItem', 'clearModeLittleMenuItemActive');
+
+        menuPizzas?.classList.add('hidden');
+        menuAcompañamientos?.classList.add('hidden');
+        menuPostres?.classList.remove('hidden');
+
+      }
+    }
+
+  }
+
+
+  const obtenerCategorias = async () => {
+    const { data: { categorias } } = await pizzaApi.get('/categorias');
+    return setCategorias(categorias);
+  }
+
+  obtenerCategorias();
 
   return (
     <div style={styles.container}>
       <div style={styles.imgContainer}>
         <div id='introMenu' style={styles.introContainer}>
           <img
-            src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
+            src='https://chugus.github.io/Pizzacode-Frontend/assets/pizza-logo-dark.png'
             style={styles.imgImgMain}
           />
           <p style={styles.textImgMain}>Mira lo que tenemos para ofrecerte:</p>
         </div>
       </div>
 
-      <div style={styles.menuContainer}>
-
-        <h4 id='titlePizzas' style={{
-          ...styles.title,
-          marginTop: 0
-        }}>Pizzas</h4>
-
-        <div id='pizzasContainer' style={styles.itemMenuContainer}>
-          <div className='menuItemContainer' style={styles.cards}>
-            <CardComponent fromMenu={true} index={'1'} />
-            <CardComponent fromMenu={true} index={'2'} />
-            <CardComponent fromMenu={true} index={'3'} />
-            <CardComponent fromMenu={true} index={'4'} />
-            <CardComponent fromMenu={true} index={'5'} />
-            <CardComponent fromMenu={true} index={'6'} />
-            <CardComponent fromMenu={true} index={'7'} />
-            <CardComponent fromMenu={true} index={'8'} />
-            <CardComponent fromMenu={true} index={'9'} />
-            <CardComponent fromMenu={true} index={'10'} />
-            <CardComponent fromMenu={true} index={'11'} />
-            <CardComponent fromMenu={true} index={'12'} />
-          </div>
+      <div id='menuContent' style={styles.contentContainer}>
+        <div
+          id='itemsLinkMenu'
+          style={{ width: '25%', borderRight: '3px solid rgb(145, 14, 14)' }}
+        >
+          <p
+            id='pizzasLinkContainer'
+            className={themeChange === 'dark' ? "darkModeLittleMenuItemActive" : "clearModeLittleMenuItemActive"}
+            onClick={() => changeActive('pizzasLinkContainer')}
+            style={styles.linkMenu}
+            >
+            Pizzas
+          </p>
+          <p
+            id='acompañamientosLinkContainer'
+            className={themeChange === 'dark' ? "darkModeLittleMenuItem" : "clearModeLittleMenuItem"}
+            onClick={() => changeActive('acompañamientosLinkContainer')}
+            style={styles.linkMenu}
+            >
+            Acompañamientos
+          </p>
+          <p
+            id='postresLinkContainer'
+            className={themeChange === 'dark' ? "darkModeLittleMenuItem" : "clearModeLittleMenuItem"}
+            onClick={() => changeActive('postresLinkContainer')}
+            style={styles.linkMenu}
+          >
+            Postres
+          </p>
         </div>
 
-        <hr style={styles.hr} />
-
-
-        <h4 id='titleAcompañamientos' style={styles.title}>Acompañamientos</h4>
-
-        <div id='acompañamientosContainer' style={styles.itemMenuContainer}>
-          <div className='menuItemContainer' style={styles.cards}>
-            <CardComponent fromMenu={true} index={'13'} />
-            <CardComponent fromMenu={true} index={'14'} />
-            <CardComponent fromMenu={true} index={'15'} />
-            <CardComponent fromMenu={true} index={'16'} />
-            <CardComponent fromMenu={true} index={'17'} />
-            <CardComponent fromMenu={true} index={'18'} />
-            <CardComponent fromMenu={true} index={'19'} />
-            <CardComponent fromMenu={true} index={'20'} />
-            <CardComponent fromMenu={true} index={'21'} />
-            <CardComponent fromMenu={true} index={'22'} />
-            <CardComponent fromMenu={true} index={'23'} />
-            <CardComponent fromMenu={true} index={'24'} />
-          </div>
-        </div>
-
-        <hr style={styles.hr} />
-
-
-        <h4 id='titlePostres' style={styles.title}>Postres</h4>
-
-        <div id='postresContainer' style={styles.itemMenuContainer}>
-          <div className='menuItemContainer' style={styles.cards}>
-            <CardComponent fromMenu={true} index={'25'} />
-            <CardComponent fromMenu={true} index={'26'} />
-            <CardComponent fromMenu={true} index={'27'} />
-            <CardComponent fromMenu={true} index={'28'} />
-            <CardComponent fromMenu={true} index={'29'} />
-            <CardComponent fromMenu={true} index={'30'} />
-            <CardComponent fromMenu={true} index={'31'} />
-            <CardComponent fromMenu={true} index={'32'} />
-            <CardComponent fromMenu={true} index={'33'} />
-            <CardComponent fromMenu={true} index={'34'} />
-            <CardComponent fromMenu={true} index={'35'} />
-            <CardComponent fromMenu={true} index={'36'} />
+        <div id='contentMenuItem' style={{ width: '75% ' }}>
+          <div style={styles.menuContainer}>
+            {
+              categorias.map(categoria => (
+                <ItemMenu key={categoria._id} nombre={categoria.nombre} titulo={categoria.titulo} producto={categoria.productos} />
+              ))
+            }
           </div>
         </div>
 
@@ -160,6 +223,25 @@ const styles = {
     textShadow: '2px 2px 3px #000'
   },
 
+  contentContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-around'
+  },
+
+  linkMenu: {
+    width: '100%',
+    display: 'block',
+
+    padding: '25px',
+    fontSize: '20px',
+    textDecoration: 'none',
+
+    marginBottom: 0,
+    borderBottom: '3px solid rgb(145, 14, 14)',
+    cursor: 'pointer',
+  },
+
   // Menu container
   menuContainer: {
     width: '100%',
@@ -170,44 +252,23 @@ const styles = {
     justifyContent: 'center',
   },
   title: {
-    letterSpacing: '1px',
     fontWeight: 'bold',
     fontSize: '30px',
     color: 'rgb(145, 14, 14)',
+    textAlign: 'center' as 'center',
+    marginTop: '20px',
+    letterSpacing: '1px',
     textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
-    marginTop: '20px'
-  },
-  hr: {
-    width: '90%',
-    height: '2px',
-    color: 'rgb(145, 14, 14)',
-    opacity: 1,
-    margin: '0 30px 15px 30px',
-    boxShadow: '0px 0px 5px 2x rgba(145, 14, 14, 0.5)'
   },
   itemMenuContainer: {
-    width: '90%',
+    width: '100%',
     display: 'flex',
-    // backgroundColor: 'rgba(145, 14, 14, 0.9)',
-    backgroundColor: 'rgb(33, 33, 60)',
-    flexDirection: 'column' as 'column',
+    flexWrap: 'wrap' as 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     marginTop: '30px',
     marginBottom: '60px',
-    opacity: 0,
     padding: '20px',
-    boxShadow: 'inset 0px 0px 7px 5px rgba(0, 0, 0, 0.5)',
-  },
-  cards: {
-    display: 'flex',
-    width: '100%',
-    overflowX: 'auto' as 'auto',
-    alignItems: 'center',
-    marginTop: '5px',
-
-    scrollbarWidth: 'thin' as 'thin',
-    scrollbarColor: 'white transparent',
   }
 
 }

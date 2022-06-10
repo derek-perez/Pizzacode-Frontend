@@ -6,6 +6,11 @@ interface UseFormProps {
     random?: string;
     searchInput?: string;
     nombres?: string;
+    name?: string;
+    telephone?: string;
+    email?: string;
+    password?: string;
+    password2?: string;
     correoElectronico?: string;
     estado?: string;
     telefono?: string;

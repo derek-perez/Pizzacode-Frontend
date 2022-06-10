@@ -1,25 +1,44 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import { ContentItemText } from "./ContentItemText";
-import { faCity, faEarthAmerica, faEnvelope, faMapLocationDot, faPhone, faStreetView, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { ChangeTheme } from "../../helpers/changeTheme";
+import { UserContext } from "../../context/UserContext";
+import pizzaApi from "../../api/pizzaApi";
+
 
 
 export const PerfilContent = () => {
+
+    const { user } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    const userLS = localStorage.getItem('user');
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+
+        if (userLS === null || undefined || '') {
+            navigate('/join/login')
+        }
+    }, []);
 
     ChangeTheme({
         id: ['perfilContentTitle'], is: 'title'
     });
 
-    const [cP, setCP] = useState(true);
-    const [cM, setCM] = useState(true);
     const [name, setName] = useState(true);
     const [email, setEmail] = useState(true);
-    const [state, setState] = useState(true);
     const [telephone, setTelephone] = useState(true);
-    const [direction, setDirection] = useState(true);
-    const [lastName, setLastName] = useState(true);
+
+    const [nameText, setNameText] = useState('');
+    const [emailText, setEmailText] = useState('');
+    const [telephoneText, setTelephoneText] = useState('');
+
     const [buttonsContainer, setButtonsContainer] = useState(false);
 
 
@@ -32,74 +51,61 @@ export const PerfilContent = () => {
                 <ContentItemText
                     icon={faUser}
                     boolean={name}
-                    contentValue={'Nombre(s)'}
-                    nameInput={'name'}
+                    contentValue={user.nombre}
+                    nameInput={'Nombre'}
+                    setText={setNameText}
                     setBoolean={setName}
-                    setButtonsContainer={setButtonsContainer} 
-                />
-                <ContentItemText
-                    icon={faUser}
-                    boolean={lastName} 
-                    contentValue={'Apellido(s)'}
-                    nameInput={'lastName'}
-                    setBoolean={setLastName}
-                    setButtonsContainer={setButtonsContainer} 
+                    setButtonsContainer={setButtonsContainer}
                 />
                 <ContentItemText
                     icon={faEnvelope}
-                    boolean={email} 
-                    contentValue={'Correo electrónico'}
-                    nameInput={'email'}
+                    boolean={email}
+                    contentValue={user.correo}
+                    nameInput={'Correo electrónico'}
+                    setText={setEmailText}
                     setBoolean={setEmail}
-                    setButtonsContainer={setButtonsContainer} 
+                    setButtonsContainer={setButtonsContainer}
                 />
                 <ContentItemText
                     icon={faPhone}
-                    boolean={telephone} 
-                    contentValue={'+12 3456 7890'}
-                    nameInput={'telephone'}
+                    boolean={telephone}
+                    contentValue={user.telefono}
+                    nameInput={'Teléfono'}
+                    setText={setTelephoneText}
                     setBoolean={setTelephone}
-                    setButtonsContainer={setButtonsContainer} 
-                />
-                <ContentItemText
-                    icon={faMapLocationDot}
-                    boolean={direction} 
-                    contentValue={'Dirección'}
-                    nameInput={'direction'}
-                    setBoolean={setDirection}
-                    setButtonsContainer={setButtonsContainer} 
-                />
-                <ContentItemText
-                    icon={faCity}
-                    boolean={cM} 
-                    contentValue={'Ciudad/Municipio'}
-                    nameInput={'cM'}
-                    setBoolean={setCM}
-                    setButtonsContainer={setButtonsContainer} 
-                />
-                <ContentItemText
-                    icon={faEarthAmerica}
-                    boolean={state} 
-                    contentValue={'Estado'}
-                    nameInput={'state'}
-                    setBoolean={setState}
-                    setButtonsContainer={setButtonsContainer} 
-                />
-                <ContentItemText
-                    icon={faStreetView}
-                    boolean={cP} 
-                    contentValue={'Código postal'} 
-                    nameInput={'cP'}
-                    setBoolean={setCP}
-                    setButtonsContainer={setButtonsContainer} 
+                    setButtonsContainer={setButtonsContainer}
                 />
             </div>
 
             {
                 (buttonsContainer) && (
                     <div style={styles.buttonsContainer}>
-                        <button className="btn btn-outline-success" style={styles.button}>Guardar</button>
-                        <button className="btn btn-outline-danger" style={styles.button} onClick={() => window.location.reload()}>Restablecer</button>
+                        <button
+                            className="btn btn-outline-success"
+                            style={styles.button}
+                            onClick={() => {
+                                const token = localStorage.getItem('token');
+
+                                pizzaApi.put('/usuarios/' + user._id, {
+                                    nombre: nameText !== '' ? nameText : user.nombre,
+                                    correo: emailText !== '' ? emailText : user.correo,
+                                    telefono: telephoneText !== '' ? telephoneText : user.telefono
+                                }, { headers: { 'x-token': `${token?.split('"')[1]}` } })
+                                    .then(res => {
+                                        res.status === 200 && window.location.reload();
+                                    })
+                                    .catch(err => console.log(err.response.data))
+                            }}
+                        >
+                            Guardar
+                        </button>
+                        <button
+                            className="btn btn-outline-danger"
+                            style={styles.button}
+                            onClick={() => window.location.reload()}
+                        >
+                            Restablecer
+                        </button>
                     </div>
                 )
             }
@@ -125,7 +131,8 @@ const styles = {
     contentItem: {
         width: '100%',
         display: 'flex',
-        flexWrap: 'wrap' as 'wrap',
+        flexDirection: 'column' as 'column',
+        alignItems: 'center',
         justifyContent: 'space-evenly' as 'space-evenly'
     },
     contentItemText: {
@@ -159,7 +166,7 @@ const styles = {
         marginTop: '20px'
     },
     button: {
-        fontSize: '18px', 
+        fontSize: '18px',
         margin: '0 15px'
     }
 

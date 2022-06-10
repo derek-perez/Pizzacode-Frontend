@@ -63,15 +63,13 @@ export const Navbar = () => {
 
   }
 
-  const url = window.location.host;
-
 
   return (
     <nav id='navBar' style={styles.navbar}>
       <div>
         <Link to='/'>
           <img
-            src={url === 'chugus.github.io' ? '/Pizzacode-Frontend/assets/pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
+            src='https://chugus.github.io/Pizzacode-Frontend/assets/pizza-logo-dark.png'
             alt='Ir a inicio'
             style={styles.logo}
           />
@@ -79,7 +77,14 @@ export const Navbar = () => {
       </div>
 
       <div className='searchDiv' style={styles.itemSearch}>
-        <input id='buscarInput' type='text' placeholder='Buscar producto' onChange={handlerChange} name='searchInput' style={styles.inputSearch} />
+        <input
+          id='buscarInput'
+          type='text'
+          placeholder='Buscar producto'
+          onChange={handlerChange}
+          name='searchInput'
+          style={styles.inputSearch}
+        />
         <Link to={`/buscar/${searchInput}`}>
           <FontAwesomeIcon icon={faSearch} style={{ ...styles.icon, marginRight: 0, outline: 'none' }} />
         </Link>

@@ -1,3 +1,4 @@
+import { UserContext } from '../context/UserContext';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import {
@@ -15,9 +16,19 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { PagarScreen } from '../screens/PagarScreen';
 import { ChangeTheme } from '../helpers/changeTheme';
+import { AlertCarrito } from '../components/AlertCarrito';
+import { Loading } from '../components/screensComponents/Loading';
+import { useContext, useEffect } from 'react';
 
 
 export const Router = () => {
+
+     const { checkLogin } = useContext(UserContext);
+
+     useEffect(() => {
+          checkLogin();
+     }, [])
+
 
      ChangeTheme({
           id: ['root'], is: 'div'
@@ -42,6 +53,9 @@ export const Router = () => {
 
                     <Route path='*' element={<Navigate to='/' />} />
                </Routes>
+
+               <Loading />
+               <AlertCarrito />
 
                <Footer />
           </>

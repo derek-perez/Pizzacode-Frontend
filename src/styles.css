@@ -7,6 +7,10 @@ body {
     transition: 0.5s;
 }
 
+.hidden {
+    display: none !important;
+}
+
 /* Temas */
 .darkMode {
     background-color: #222 !important;
@@ -22,6 +26,11 @@ body {
 .darkModeCard {
     background: linear-gradient(to bottom, #222, #000 60%) !important;
     color: #fff !important;
+    transition: 0.5s ease-out;
+}
+
+.darkModeCard:hover {
+    padding: 20px !important;
 }
 
 .darkModeCard p,
@@ -56,6 +65,25 @@ body {
 }
 
 
+.darkModeLittleMenuItemActive:hover,
+.darkModeLittleMenuItem:hover {
+    background-color: #333;
+    transition: 0.5s ease-in-out;
+}
+
+.clearModeLittleMenuItemActive:hover,
+.clearModeLittleMenuItem:hover {
+    background-color: #ccc;
+    transition: 0.5s ease-in-out;
+}
+
+.cardComponent {
+    transition: 0.5s;
+}
+
+.cardComponent:hover {
+    padding: 20px !important;
+}
 
 
 /* Otros */
@@ -93,6 +121,25 @@ body {
 
 .menuOpen {
     display: none;
+}
+
+.deleteItem {
+    transition: 0.5s;
+}
+.deleteItem:hover {
+    font-size: 20px;
+}
+
+.btnCard {
+    transition: 0.5s;
+}
+.btnCard:hover {
+    border: 1px solid rgb(145, 14, 14);
+    background-color: transparent !important;
+}
+.btnCard:hover > button,
+.btnCard:hover > svg {
+    color: rgb(145, 14, 14) !important;
 }
 
 
@@ -161,11 +208,36 @@ body {
     #payDivsContent {
         flex-direction: column !important;
     }
+
+    #productosDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
     .divsPay {
         width: 100% !important;
     }
     .cardProductInfo {
         padding: 0 20px !important;
+    }
+}
+
+@media (max-width: 880px) {
+    .textItemCarousel {
+        width: 75% !important;
+        left: 25%;
+        transform: translate(-15%, -50%) !important;
+    }
+    .titleItemCarousel {
+        font-size: calc(1vw + 25px) !important;
+    }
+    .subtitleItemCarousel {
+        font-size: calc(1vw + 20px) !important;
+    }
+    .paragraphItemCarousel {
+        font-size: calc(1vw + 15px) !important;
     }
 }
 
@@ -190,22 +262,45 @@ body {
         border-bottom: none;
         margin-bottom: 0;
     }
+
+    #menuContent {
+        flex-direction: column !important;
+    }
+
+    #itemsLinkMenu {
+        border-left: 2px solid rgb(145, 14, 14);
+    }
+
+    #itemsLinkMenu,
+    #contentMenuItem {
+        width: 100% !important;
+    }
+
 }
 
-@media (max-width: 880px) {
-    .textItemCarousel {
-        width: 75% !important;
-        left: 25%;
-        transform: translate(-15%, -50%) !important;
+@media (max-width: 775px) {
+    #loginScreenContainer {
+        margin: 25px 0 !important;
     }
-    .titleItemCarousel {
-        font-size: calc(1vw + 25px) !important;
+
+    #registerScreenContainer {
+        margin-left: 0 !important;
+        flex-direction: column !important;
     }
-    .subtitleItemCarousel {
-        font-size: calc(1vw + 20px) !important;
+
+    #registerScreenContainer > div {
+        margin-left: 0 !important;
     }
-    .paragraphItemCarousel {
-        font-size: calc(1vw + 15px) !important;
+
+    #loginScreenContent {
+        flex-direction: column !important;
+        margin-left: 0 !important;
+    }
+
+    #linkLogin,
+    #linkRegister {
+        margin-top: 35px !important;
+        margin-left: 0 !important;
     }
 }
 
@@ -243,6 +338,14 @@ body {
     }
 }
 
+@media (max-width: 650px) {
+    #productsContext > div {
+        width: 95% !important;
+        min-width: 95% !important;
+        max-width: 95% !important;
+    }
+}
+
 @media (max-width: 630px) {
     .searchDiv {
         display: none;
@@ -262,6 +365,19 @@ body {
     }
 }
 
+@media (max-width: 615px) {
+    html {
+        overflow-x: hidden;
+    }
+
+    #productsContext > div {
+        flex-direction: column !important;
+    }
+    #productsContext > div > div {
+        width: 95% !important;
+    }
+}
+
 @media (max-width: 520px) {
     .itemPerfil {
         flex-direction: column;
@@ -271,6 +387,17 @@ body {
     }
     .itemPerfilDiv {
         width: 100% !important;
+    }
+
+    #productosDiv > div {
+        width: 95% !important;
+        min-width: 95% !important;
+        max-width: 95% !important;
+
+        flex-direction: column !important;
+    }
+    #productosDiv > div > div {
+        width: 95% !important;
     }
 }
 
@@ -284,7 +411,16 @@ body {
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 440px) {
+    #menuResponsiveContent {
+        width: 100% !important;
+    }
+
+    .cardComponent {
+        margin: 0 !important;
+        min-width: 90% !important;
+    }
+
     .directionCard {
         min-width: 90% !important;
     }
@@ -293,5 +429,33 @@ body {
     }
     #addProductDiv {
         width: 90% !important;
+    }
+
+    #returnIcon {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin-top: 15px !important;
+    }
+
+    #titlePagar {
+        margin: 15px 0 25px 0 !important;
+    }
+
+    #loginForm,
+    #registerForm {
+        width: 100% !important;
+    }
+
+    #loginForm > div,
+    #registerForm > div {
+        width: 95% !important;
+        min-width: 95% !important;
+        max-width: 95% !important;
+    }
+
+    #linkLogin > img,
+    #linkRegister > img {
+        max-width: 95% !important;;       
     }
 }

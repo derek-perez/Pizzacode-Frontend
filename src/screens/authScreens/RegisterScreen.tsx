@@ -1,59 +1,205 @@
-import { Link } from "react-router-dom"
+import { useContext, useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
-import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons"
+import { faEnvelope, faLock, faPhone, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Swal from "sweetalert2"
+
+import { ChangeTheme } from "../../helpers/changeTheme"
+import { useForm } from "../../hooks/useForm"
+import pizzaApi from "../../api/pizzaApi"
+
+import { UserContext } from "../../context/UserContext"
+
 
 
 export const RegisterScreen = () => {
 
-  const putOutline = (div: string) => {
-    if (div === 'name') {
-      document.getElementById("nameDiv")!.style.border = '1px solid blue'
-    } else if (div === 'email') {
-      document.getElementById("emailDiv")!.style.border = '1px solid blue'
-    } else if (div === 'password') {
-      document.getElementById("passwordDiv")!.style.border = '1px solid blue'
-    } else if (div === 'password2') {
-      document.getElementById("password2Div")!.style.border = '1px solid blue'
-    }
-  }
+  const { setUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const url = window.location.host;
 
+  ChangeTheme({
+    id: ['registerScreenContainer'], is: 'div'
+  })
+  ChangeTheme({
+    id: [
+      'nameRegisterInput',
+      'emailRegisterInput',
+      'passwordRegisterInput',
+      'password2RegisterInput',
+      'telephoneRegisterInput',
+    ], is: 'input'
+  });
+
+  const { name, email, telephone, password, password2, onChange } = useForm({
+    name: '',
+    email: '',
+    telephone: '',
+    password: '',
+    password2: '',
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (name === '' || email === '' || telephone === '' || password === '' || password2 === '') {
+      setLoading(false);
+      return Swal.fire({
+        title: 'Error',
+        text: 'Todos los campos son obligatorios',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
+
+    if (password !== password2) {
+      setLoading(false);
+      return Swal.fire({
+        title: 'Error',
+        text: 'Las contraseñas no coinciden',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
+
+    await pizzaApi.post('/usuarios', {
+      nombre: name,
+      correo: email,
+      telefono: telephone,
+      password: password2
+    })
+      .then(res => {
+        setLoading(false);
+
+        setUser(res.data.usuario);
+        
+        localStorage.setItem('user', JSON.stringify(res.data.usuario.email));
+        localStorage.setItem('token', res.data.token);
+
+        Swal.fire({
+          title: 'Bienvenido',
+          text: 'Te has registrado correctamente',
+          icon: 'success',
+          confirmButtonText: 'Continuar'
+        })
+        .then(e => {
+          e.isConfirmed || e.isDismissed && (
+            navigate('/cuenta/perfil')
+          )
+        })
+
+      })
+      .catch(err => {
+        setLoading(false);
+
+        const errors = err.response.data.errors;
+
+        errors.forEach((element: any) => {
+          Swal.fire({
+            title: 'Error',
+            text: element.msg,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
+        })
+      })
+
+  }
+
+  useEffect(() => {
+    if (loading) {
+      document.getElementById('loadingComponent')?.classList.remove('hidden')
+    } else {
+      document.getElementById('loadingComponent')?.classList.add('hidden')
+    }
+  }, [loading])
+
 
   return (
-    <div style={styles.container}>
+    <div id='registerScreenContainer' style={styles.container}>
 
       <div style={styles.formContainer}>
         <h1 style={styles.titleForm}>Regístrate</h1>
 
-        <div style={styles.contentCard}>
-          <form style={styles.form}>
+        <div id='registerScreenContainer' style={styles.contentCard}>
+          <form id='registerForm' onSubmit={handleSubmit} style={styles.form}>
 
-            <div id='nameDiv' style={styles.formGroup}>
-              <FontAwesomeIcon onClick={() => putOutline('name')} icon={faUser} />
-              <input onClick={() => putOutline('name')} style={styles.formInput} type="text" placeholder="Nombre" required />
+            <div style={styles.formGroup}>
+              <FontAwesomeIcon icon={faUser} />
+              <input
+                style={styles.formInput}
+                id='nameRegisterInput'
+                type="text"
+                placeholder="Nombre"
+                name='name'
+                value={name}
+                onChange={onChange}
+                required
+              />
             </div>
 
-            <div id='emailDiv' style={styles.formGroup}>
-              <FontAwesomeIcon onClick={() => putOutline('email')} icon={faEnvelope} />
-              <input onClick={() => putOutline('email')} style={styles.formInput} type="email" placeholder="Correo electrónico" required />
+            <div style={styles.formGroup}>
+              <FontAwesomeIcon icon={faEnvelope} />
+              <input
+                style={styles.formInput}
+                id='emailRegisterInput'
+                type="email"
+                placeholder="Correo electrónico"
+                name='email'
+                value={email}
+                onChange={onChange}
+                required
+              />
             </div>
-
-            <div id='passwordDiv' style={styles.formGroup}>
-              <FontAwesomeIcon onClick={() => putOutline('password')} icon={faLock} />
-              <input onClick={() => putOutline('password')} style={styles.formInput} type="password" placeholder="Contraseña" required />
+            <div style={styles.formGroup}>
+              <FontAwesomeIcon icon={faPhone} />
+              <input
+                style={styles.formInput}
+                id='telephoneRegisterInput'
+                type="tel"
+                placeholder="Teléfono"
+                name='telephone'
+                value={telephone}
+                onChange={onChange}
+                required
+              />
             </div>
-            <div id='password2Div' style={styles.formGroup}>
-              <FontAwesomeIcon onClick={() => putOutline('password2')} icon={faLock} />
-              <input onClick={() => putOutline('password2')} style={styles.formInput} type="password" placeholder="Repite la contraseña" required />
+            <div style={styles.formGroup}>
+              <FontAwesomeIcon icon={faLock} />
+              <input
+                style={styles.formInput}
+                id='passwordRegisterInput'
+                type="password"
+                placeholder="Contraseña"
+                name='password'
+                value={password}
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div style={styles.formGroup}>
+              <FontAwesomeIcon icon={faLock} />
+              <input
+                style={styles.formInput}
+                id='password2RegisterInput'
+                type="password"
+                placeholder="Repite la contraseña"
+                name='password2'
+                value={password2}
+                onChange={onChange}
+                required
+              />
             </div>
 
             <button className='btn btn-primary' type="submit">Registrarme</button>
           </form>
 
-          <div style={styles.goToLogin}>
-            <img src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/register-image.jpg' : '../../assets/register-image.jpg'} />
+          <div id="linkRegister" style={styles.goToLogin}>
+            <img src='https://chugus.github.io/Pizzacode-Frontend/assets/register-image.jpg' />
             <p>¿Ya tienes una cuenta? <Link to="/join/login">Inicia sesión</Link></p>
           </div>
         </div>
@@ -77,6 +223,7 @@ const styles = {
     backgroundColor: 'white',
   },
   formContainer: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center' as 'center',

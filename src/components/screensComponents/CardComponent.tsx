@@ -1,60 +1,113 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-import 'animate.css';
 import { ChangeTheme } from '../../helpers/changeTheme';
+import { useAnimation } from '../../hooks/useAnimation';
+import { Producto } from '../../interfaces/interfaces';
+import { useContext, useEffect, useState } from 'react';
+import { CartContext } from '../../context/CartContext';
+
+import 'animate.css';
 
 
 interface Props {
-    inlineStyles?: Object;
-    shoppingCart?: boolean;
+    inlineStyles?: object;
+    productoID: string;
+    nombre: string;
+    imagen: string;
+    descripcion: string;
+    precio: string | undefined;
     fromMenu?: boolean;
-    index?: string;
+    fromSearch?: boolean;
+    fromCarShopping?: boolean;
 }
 
 
-export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index }: Props) => {
+export const CardComponent = ({ inlineStyles, productoID, nombre, imagen, descripcion, precio, fromMenu, fromSearch, fromCarShopping }: Props) => {
+
+    const { setStore } = useContext(CartContext);
+    const [cantidad, setCantidad] = useState(0);
+
+    const almacenado = JSON.parse(localStorage.getItem('productos') || '[]');
+
+    useEffect(() => {
+        almacenado !== [] && (
+            almacenado.map((prod: any) => {
+                prod.producto._id === productoID && setCantidad(1)
+            })
+        )
+    }, [])
 
     ChangeTheme({
         id: [
-            `cardComponent${index}`,
+            `cardComponent${productoID}`,
         ], is: 'card'
     });
 
     ChangeTheme({
         id: [
-            `titleCardComponent${index}`,
-            `priceCardComponent${index}`
+            `titleCardComponent${productoID}`,
+            `priceCardComponent${productoID}`
         ], is: 'title'
     });
 
-    const url = window.location.host; 
+    useAnimation({
+        element: [
+            `cardComponent${productoID}`
+        ], 
+        name: ['animate__backInDown'],
+        staticElement: fromSearch ? true : false
+    });
+
+    const handleClick = () => {
+        if (cantidad < 1) {
+            setStore(productoID);
+            setCantidad(cantidad + 1);
+
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div style={{margin: '10px 0'}} class="alert alert-success alert-dismissible animate__animated animate__fadeInLeft" role="alert">`,
+                `   <div>Se ha agregado correctamente al carrito</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            document.getElementById('alertCarrito')?.append(wrapper);
+            document.getElementById('alertCarrito')?.classList.remove('hidden');
+
+            setTimeout(() => {
+                wrapper.remove();
+            }, 3000);
+        }
+    }
 
 
     return (
         <div
-            id={`cardComponent${index}`}
-            className={shoppingCart ? 'cartItem' : 'cardComponent'}
+            id={`cardComponent${productoID}`}
+            className='cardComponent'
             style={{
                 ...styles.cardComponent,
-                ...inlineStyles
+                ...inlineStyles,
+                opacity: fromCarShopping ? 1 : 0,
             }}
         >
             <img
                 style={styles.cardComponentImg}
-                src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/topRated2.jpg' : '../../assets/topRated2.jpg'}
+                src={imagen}
             />
             <div style={styles.cardComponentInfo}>
                 <p
-                    id={`titleCardComponent${index}`}
+                    id={`titleCardComponent${productoID}`}
                     style={{
                         fontSize: '25px',
-                        marginTop: '5px',
                         color: 'rgb(145, 14, 14)',
-                        textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)'
+                        margin: '10px 0 20px 0',
+                        padding: '0 10px',
+                        textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)',
                     }}
                 >
-                    Pizza hawaiana
+                    {nombre}
                 </p>
 
                 {
@@ -65,8 +118,7 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
                                 padding: '0 15px'
                             }}
                         >
-                            Una pizza hecho con una base de queso y una salsa de tomate, con una combinación de ingredientes que te harán sentir como en casa.
-                            Y una base de jamón y piña
+                            {descripcion}
                         </p>
                     )
                 }
@@ -74,19 +126,9 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
 
             <div style={{ textAlign: 'center' }}>
                 {
-                    (shoppingCart) && (
-                        <div style={styles.addProduct}>
-                            <span style={styles.buttonAddProduct}>-</span>
-                            <span style={styles.numberCuantity}>1</span>
-                            <span style={styles.buttonAddProduct}>+</span>
-                        </div>
-                    )
-                }
-
-                {
                     (fromMenu) && (
                         <p
-                            id={`priceCardComponent${index}`}
+                            id={`priceCardComponent${productoID}`}
                             style={{
                                 fontSize: '20px',
                                 marginTop: '5px',
@@ -94,28 +136,25 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
                                 textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)'
                             }}
                         >
-                            $200
+                            ${precio}
                         </p>
                     )
                 }
             </div>
 
-            {
-                (fromMenu) && (
-                    <div style={styles.containerLink}>
-                        <button
-                            style={styles.buttonCardComponent}
-                            onClick={() => console.log('Botón')}
-                        >
-                            Agregar al carrito
-                        </button>
-                        <FontAwesomeIcon
-                            icon={solid('arrow-right')}
-                            style={styles.iconCardComponent}
-                        />
-                    </div>
-                )
-            }
+            <div
+                className='btnCard'
+                style={styles.containerLink}
+                onClick={handleClick}
+            >
+                <button style={styles.buttonCardComponent}>
+                    Agregar al carrito
+                </button>
+                <FontAwesomeIcon
+                    icon={solid('arrow-right')}
+                    style={styles.iconCardComponent}
+                />
+            </div>
         </div>
     )
 }
@@ -123,6 +162,7 @@ export const CardComponent = ({ inlineStyles = {}, shoppingCart, fromMenu, index
 const styles = {
     cardComponent: {
         minWidth: '350px',
+        width: '30%',
         backgroundColor: 'white',
 
         display: 'flex',
@@ -135,11 +175,10 @@ const styles = {
         borderRadius: '10px',
         boxShadow: '2px 2px 5px rgba(0, 0, 0, 90%)',
 
-        marginRight: '25px',
+        margin: '0 25px',
         marginBottom: '25px',
         padding: '10px',
-
-        color: 'black',
+        color: 'black'
     },
     cardComponentImg: {
         width: '90%',

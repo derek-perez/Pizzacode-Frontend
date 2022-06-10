@@ -1,20 +1,33 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { CardCheckout } from '../../components/CardCheckout';
-import { ShowProducts } from '../../components/screensComponents/ShowProducts';
+import { PagarCardsContext } from '../../context/PagarCardsContext';
 import { ChangeTheme } from '../../helpers/changeTheme';
+
+import { CardCheckout } from '../../components/screensComponents/CardCheckout';
+import { ShowProducts } from '../../components/screensComponents/ShowProducts';
+import { Productos } from '../../interfaces/interfaces';
+
 
 
 export const CarShoppingScreen = () => {
 
-  if (window.location.pathname.slice(1) === 'carrito') {
+  useEffect(() => {
     window.scrollTo(0, 0);
-    console.log(true)
-  }
+  }, []);
+
+  const { setUpdate, productos, clicked, setClicked } = useContext(PagarCardsContext);
+
+  useEffect(() => {
+    if (productos.length > 0) {
+      document.getElementById('noProducts')?.classList.add('hidden');
+      document.getElementById('productsContext')?.classList.remove('hidden');
+    }
+  }, [productos]);
+
 
   ChangeTheme({
     id: ['titleCart'], is: 'title'
@@ -59,42 +72,71 @@ export const CarShoppingScreen = () => {
             >
               Si
             </button>
-            <Link to='/carrito/pagar' className='btn btn-danger' style={styles.button}>
-              Pagar &nbsp; <FontAwesomeIcon icon={faArrowRight} />
-            </Link>
+            {
+              productos.length > 0 && (
+                <Link
+                  to='/carrito/pagar'
+                  className='btn btn-danger'
+                  style={styles.button}
+                  onClick={() => {
+                    setUpdate(3);
+                    setClicked(clicked + 1);
+                  }}
+                >
+                  Pagar &nbsp; <FontAwesomeIcon icon={faArrowRight} />
+                </Link>
+              )
+            }
           </div>
 
         </div>
       </div>
 
       <div className='menuItemContainerRed' style={styles.containerProducts}>
-        <CardCheckout
-          inlineStyles={{
-            width: '45%',
-            border: '2px solid rgb(145, 14, 14)',
-            borderRadius: 10,
-            minWidth: '472px',
-            boxShadow: '3px 3px 8px rgb(0 0 0 / 50%)'
+        <div
+          id='noProducts'
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '10px 0'
           }}
-        />
-        <CardCheckout
-          inlineStyles={{
-            width: '45%',
-            border: '2px solid rgb(145, 14, 14)',
-            borderRadius: 10,
-            minWidth: '472px',
-            boxShadow: '3px 3px 8px rgb(0 0 0 / 50%)'
+        >
+          <p
+            style={{
+              textAlign: 'center',
+              fontSize: '20px',
+              fontWeight: 'bold',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+            }}
+          >
+            Aún no hay artículos en tu carrito
+          </p>
+          <button onClick={openAddProduct} className='btn btn-outline-danger'>Agregar artículo</button>
+        </div>
+        <div
+          id='productsContext'
+          className='carritoProductos hidden'
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
           }}
-        />
-        <CardCheckout
-          inlineStyles={{
-            width: '45%',
-            border: '2px solid rgb(145, 14, 14)',
-            borderRadius: 10,
-            minWidth: '472px',
-            boxShadow: '3px 3px 8px rgb(0 0 0 / 50%)'
-          }}
-        />
+        >
+          {
+            productos && (
+              productos.map((producto: Productos) => (
+                <CardCheckout
+                  key={producto.producto._id}
+                  productoID={producto.producto._id}
+                  cantidad={producto.cantidad}
+                />
+              ))
+            )
+          }
+        </div>
       </div>
 
       {

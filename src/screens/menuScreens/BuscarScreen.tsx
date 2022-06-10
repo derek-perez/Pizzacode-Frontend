@@ -1,12 +1,16 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { CardComponent } from '../../components/screensComponents/CardComponent';
 import { useForm } from '../../hooks/useForm';
 import { ChangeTheme } from '../../helpers/changeTheme';
+import pizzaApi from '../../api/pizzaApi';
 
+import { ItemMenu } from '../../components/screensComponents/ItemMenu';
+import { Producto } from '../../interfaces/interfaces';
+import { CardComponent } from '../../components/screensComponents/CardComponent';
 
 
 export const BuscarScreen = () => {
@@ -14,11 +18,31 @@ export const BuscarScreen = () => {
   const { search } = useParams();
   const navigate = useNavigate();
 
+  const [products, setProducts] = useState([] as Producto[]);
   const { formData, onChange } = useForm({
     searchInput: search
   });
 
   const { searchInput }: any = formData;
+
+  useEffect(() => {
+    if (search === undefined) {
+      navigate('/');
+    } else {
+      getProducts();
+    }
+  }, [search]);
+
+  const getProducts = async () => {
+    await pizzaApi.get('/productos/search/' + search)
+      .then(res => {
+        setProducts(res.data.productos);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
 
   const handlerChange = (e: any) => {
     e.preventDefault();
@@ -28,7 +52,7 @@ export const BuscarScreen = () => {
 
     if (buscarInput) {
       buscarInput.addEventListener('keyup', (e) => {
-        let search = e.target as HTMLInputElement; 
+        let search = e.target as HTMLInputElement;
 
         if (e.key === 'Enter') {
           navigate('/buscar/' + search.value);
@@ -75,13 +99,23 @@ export const BuscarScreen = () => {
 
         <div style={styles.containerCards}>
 
-          <div className='menuItemContainer' style={styles.cards}>
-            <CardComponent index={'20'} fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent index={'21'} fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent index={'22'} fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent index={'23'} fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent index={'24'} fromMenu={true} inlineStyles={{ width: '30%' }} />
-            <CardComponent index={'25'} fromMenu={true} inlineStyles={{ width: '30%' }} />
+          <div className='menuItemContainerRed' style={styles.cards}>
+            {
+              products && (
+                products.map((product: Producto) => (
+                  <CardComponent
+                    key={product._id}
+                    productoID={product._id}
+                    nombre={product.nombre}
+                    imagen={product.imagen}
+                    descripcion={product.descripcion}
+                    precio={product.precio}
+                    fromSearch
+                    fromMenu
+                  />
+                ))
+              )
+            }
           </div>
         </div>
 
@@ -141,13 +175,11 @@ const styles = {
   containerCards: {
     th: '90%',
     display: 'flex',
-    // backgroundColor: 'rgba(145, 14, 14, 0.9)',
-    backgroundColor: 'rgb(33, 33, 60)',
     flexDirection: 'row' as 'row',
     alignItems: 'center',
     marginTop: '30px',
     marginBottom: '60px',
-    padding: '20px',
+    padding: '20px 0',
     boxShadow: 'inset 0px 0px 7px 5px rgba(0, 0, 0, 0.5)'
   },
   cards: {
@@ -157,7 +189,7 @@ const styles = {
     overflowX: 'auto' as 'auto',
 
     scrollbarWidth: 'thin' as 'thin',
-    scrollbarColor: 'white transparent',
+    scrollbarColor: 'rgb(145, 14, 14) transparent',
   }
 
 };

@@ -12,7 +12,6 @@ export const Footer = () => {
 
   const [modal, setModal] = useState(false);
 
-  const url = window.location.host;
 
   return (
     <div id='footer' style={styles.container}>
@@ -40,7 +39,7 @@ export const Footer = () => {
 
           <img 
             style={styles.logo} 
-            src={url === 'chugus.github.io' ? '/Pizzacode-Frontend/assets/pizza-logo-dark.png' : '../assets/pizza-logo-dark.png'}
+            src='https://chugus.github.io/Pizzacode-Frontend/assets/pizza-logo-dark.png'
             />
 
           <p>Derek Pérez | Copyright &copy;2022</p>

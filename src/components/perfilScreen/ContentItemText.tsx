@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "../../hooks/useForm";
@@ -11,15 +11,16 @@ interface ItemProps {
     contentValue: string;
     nameInput: string;
 
+    setText: (value: string) => void;
     setBoolean: (value: React.SetStateAction<boolean>) => void;
     setButtonsContainer: (value: React.SetStateAction<boolean>) => void;
 }
 
 
-export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setBoolean, setButtonsContainer }: ItemProps) => {
+export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setText, setBoolean, setButtonsContainer }: ItemProps) => {
 
     const { onChange } = useForm({});
-    const [text, setText] = useState(contentValue);
+    const [textContent, setTextContent] = useState(contentValue ? contentValue : '');
 
     const handleClick = () => {
         setBoolean(false);
@@ -29,6 +30,7 @@ export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setBoo
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
         setText(e.target.value);
+        setTextContent(e.target.value);
     }
 
 
@@ -36,7 +38,7 @@ export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setBoo
         <div className='itemPerfil' style={styles.contentItemText}>
             <div className="itemPerfilDiv">
                 <FontAwesomeIcon icon={icon} style={{ marginRight: '10px' }} />
-                <span style={styles.contentItemTextMain}>{contentValue}:</span>
+                <span style={styles.contentItemTextMain}>{nameInput}:</span>
             </div>
             {
                 (boolean)
@@ -56,7 +58,7 @@ export const ContentItemText = ({ icon, boolean, contentValue, nameInput, setBoo
                             id={nameInput}
                             style={styles.input}
                             autoFocus
-                            value={text}
+                            value={textContent}
                             onChange={handleChange}
                             name={nameInput}
                             type='text'

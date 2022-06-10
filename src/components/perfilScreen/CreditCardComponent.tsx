@@ -12,7 +12,7 @@ export const CreditCardComponent = () => {
             </div>
 
             <img
-                src={url === 'chugus.github.io' ? './Pizzacode-Frontend/assets/chip-card.png' : '../../assets/chip-card.png'}
+                src='https://chugus.github.io/Pizzacode-Frontend/assets/chip-card.png'
                 style={styles.chipImg}
             />
 

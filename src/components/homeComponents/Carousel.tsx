@@ -12,9 +12,9 @@ export const Carousel = () => {
 
     const url = window.location.host;
 
-    const carousel1 = (url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/carousel1.jpg' : '../assets/carousel1.jpg';
-    const carousel2 = (url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/carousel2.jpg' : '../assets/carousel2.jpg';
-    const carousel3 = (url === 'chugus.github.io') ? './Pizzacode-Frontend/assets/carousel3.jpg' : '../assets/carousel3.jpg';
+    const carousel1 = 'https://chugus.github.io/Pizzacode-Frontend/assets/carousel1.jpg';
+    const carousel2 = 'https://chugus.github.io/Pizzacode-Frontend/assets/carousel2.jpg';
+    const carousel3 = 'https://chugus.github.io/Pizzacode-Frontend/assets/carousel3.jpg';
 
     
     return (

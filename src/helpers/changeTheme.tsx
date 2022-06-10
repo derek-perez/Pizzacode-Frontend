@@ -33,19 +33,22 @@ export const ChangeTheme = ({ id, is }: Props) => {
                     } else if (is === 'input') {
                         element.classList.remove('clearMode');
                         element.classList.add('darkModeInput');
-                    } else if(is === 'littleMenuItem') {
+                    } else if (is === 'littleMenuItem') {
                         element.classList.remove('clearMode');
+                        element.classList.add('darkModeLittleMenuItemActive');
                         element.classList.add('darkModeLittleMenuItem');
-                    } else if(is === 'littleMenuItemActive') {
+                    } else if (is === 'littleMenuItemActive') {
                         element.classList.remove('clearMode');
                         element.classList.remove('darkModeLittleMenuItem');
                         element.classList.add('darkModeLittleMenuItemActive');
                     }
-
+                    
                 } else if (theme === 'clear') {
                     element.classList.remove('darkMode');
                     element.classList.remove('darkModeTitle');
                     element.classList.remove('darkModeCard');
+                    element.classList.remove('darkModeLittleMenuItemActive');
+                    element.classList.remove('darkModeLittleMenuItem');
                 }
             }
 

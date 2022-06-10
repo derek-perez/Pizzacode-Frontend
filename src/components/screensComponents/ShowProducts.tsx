@@ -1,19 +1,31 @@
+import { useEffect, useState } from 'react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 import { useAnimation } from '../../hooks/useAnimation';
 import { ChangeTheme } from '../../helpers/changeTheme';
-import { CardComponent } from '../screensComponents/CardComponent';
 
+import { ItemAddProduct } from './ItemAddProduct';
 
 import 'animate.css';
+import pizzaApi from '../../api/pizzaApi';
 
+
+interface PropsCategoria {
+    _id: string;
+    nombre: string;
+    titulo: string;
+    productos: string[];
+  }
 
 export const ShowProducts = () => {
 
+    const [categorias, setCategorias] = useState([] as PropsCategoria[]);
+
     ChangeTheme({
         id: ['showProducts'], is: 'div'
-    }); 
+    });
 
     ChangeTheme({
         id: [
@@ -33,7 +45,7 @@ export const ShowProducts = () => {
 
     const closeWindow = () => {
         document.getElementById('showProducts')!.classList.add('animate__animated', 'animate__backOutUp');
-        
+
         setTimeout(() => {
             document.getElementById('showProducts')!.style.opacity = '0';
             document.getElementById('showProducts')!.style.position = 'relative';
@@ -44,53 +56,44 @@ export const ShowProducts = () => {
         }, 500);
     }
 
+    const obtenerCategoria = async (id = '') => {
+        const { data } = await pizzaApi.get('/categorias/' + id);
+
+        categorias.filter(ctg => {
+            (ctg._id === data._id)
+                ? categorias.splice(categorias.indexOf(ctg), 1)
+                : console.log();
+        })
+
+        return setCategorias(ctg => [...ctg, data]);
+    }
+
+    useEffect(() => {
+        obtenerCategoria('62944a912d2cf8cfb17e0bba');
+        obtenerCategoria('62943d80c3e39e6ae55afee3');
+        obtenerCategoria('62943df8c3e39e6ae55afee7');
+        obtenerCategoria('62943e0ec3e39e6ae55afee9');
+    }, [])
+
+
+
     return (
         <div id='showProducts' style={styles.showProducts}>
-            <FontAwesomeIcon 
+            <FontAwesomeIcon
                 id='closeWindow'
-                style={styles.close} 
-                onClick={closeWindow} 
+                style={styles.close}
+                onClick={closeWindow}
                 icon={faClose}
             />
             <h3 id='titleProducts' style={styles.showProductsTitle}>Escoje algún producto</h3>
 
             <div className='menuItemContainerRed' style={styles.products}>
 
-                <div style={styles.productsRow}>
-                    <h4 id='titlePizzasMenu' style={styles.titleProductsRow}>Pizzas</h4>
-
-                    <div className='menuItemContainerRed' style={styles.cards}>
-                        <CardComponent index={'50'} fromMenu={true} />
-                        <CardComponent index={'51'} fromMenu={true} />
-                        <CardComponent index={'52'} fromMenu={true} />
-                        <CardComponent index={'53'} fromMenu={true} />
-                        <CardComponent index={'54'} fromMenu={true} />
-                    </div>
-                </div>
-
-                <div style={styles.productsRow}>
-                    <h4 id='titleAcompañamientosMenu' style={styles.titleProductsRow}>Acompañamientos</h4>
-
-                    <div className='menuItemContainerRed' style={styles.cards}>
-                        <CardComponent index={'55'} fromMenu={true} />
-                        <CardComponent index={'56'} fromMenu={true} />
-                        <CardComponent index={'57'} fromMenu={true} />
-                        <CardComponent index={'58'} fromMenu={true} />
-                        <CardComponent index={'59'} fromMenu={true} />
-                    </div>
-                </div>
-
-                <div style={styles.productsRow}>
-                    <h4 id='titlePostresMenu' style={styles.titleProductsRow}>Postres</h4>
-
-                    <div className='menuItemContainerRed' style={styles.cards}>
-                        <CardComponent index={'60'} fromMenu={true} />
-                        <CardComponent index={'61'} fromMenu={true} />
-                        <CardComponent index={'62'} fromMenu={true} />
-                        <CardComponent index={'63'} fromMenu={true} />
-                        <CardComponent index={'64'} fromMenu={true} />
-                    </div>
-                </div>
+                {
+                    categorias.map(ctg => (
+                        <ItemAddProduct key={ctg._id} nombre={ctg.nombre} titulo={ctg.titulo} productosID={ctg.productos} />
+                    ))
+                }
 
             </div>
         </div>
@@ -121,7 +124,7 @@ const styles = {
     close: {
         position: 'fixed' as 'fixed',
         top: '30px',
-        right: '20px',
+        right: '40px',
         cursor: 'pointer',
         fontSize: '30px'
     },
