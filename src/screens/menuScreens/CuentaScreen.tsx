@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { faCreditCard, faLock, faMapLocationDot, faReceipt, faUser } from '@fortawesome/free-solid-svg-icons'
+import { UserContext } from '../../context/UserContext';
 
 import {
   PerfilContent,
@@ -16,8 +17,27 @@ import {
 
 export const CuentaScreen = () => {
 
-  const [auth, setAuth] = useState(false);
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const { item } = useParams();
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token === null || '') {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+
+      navigate('/join/login');
+    }
+  }, [item]);
+
+  const handleClick = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+
+    navigate('/join/login');
+  }
 
 
   return (
@@ -27,7 +47,15 @@ export const CuentaScreen = () => {
         <LittleMenuItem active={(item === 'contraseña') ? true : false} name='Contraseña' icon={faLock} />
         <LittleMenuItem active={(item === 'direcciones') ? true : false} name='Direcciones' icon={faMapLocationDot} />
         <LittleMenuItem active={(item === 'tarjetas') ? true : false} name='Tarjetas' icon={faCreditCard} />
-        <LittleMenuItem active={(item === 'pagos') ? true : false} name='Pagos' icon={faReceipt} />
+        <LittleMenuItem active={(item === 'compras') ? true : false} name='Compras' icon={faReceipt} />
+
+        <button
+          onClick={handleClick}
+          className='btn btn-outline-danger'
+          style={{ marginTop: '25px' }}
+        >
+          Cerrar sesión
+        </button>
       </div>
 
       {
@@ -35,8 +63,8 @@ export const CuentaScreen = () => {
           (item === 'contraseña') ? <ContraseñaContent /> :
             (item === 'direcciones') ? <DireccionesContent /> :
               (item === 'tarjetas') ? <TarjetasContent /> :
-                (item === 'pagos') ? <PagosContent /> :
-                    <PerfilContent />
+                (item === 'compras') ? <PagosContent /> :
+                  <PerfilContent />
       }
 
     </div>

@@ -409,6 +409,31 @@ body {
     #introMenu > p {
         font-size: 35px !important;
     }
+
+    .cardContent {
+        width: 90% !important;
+        min-width: 90% !important;
+    }
+
+    .cardContent > .numberCard {
+        overflow-x: auto !important;
+        scrollbar-color: white transparent !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .cardContent > .numberCard::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+    
+    .cardContent > .numberCard::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    .cardContent > .numberCard::-webkit-scrollbar-thumb {
+        background-color: white;
+        border-radius: 20px;
+    }
 }
 
 @media (max-width: 440px) {

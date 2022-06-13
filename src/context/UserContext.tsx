@@ -29,13 +29,13 @@ export const UserContextProvider = ({ children }: any) => {
         if (Object.entries(user).length !== 0)  {
             localStorage.setItem('user', JSON.stringify(user.correo));
         }
-    }, [user])
+    }, [user]);
 
-    const checkLogin = () => {
+    const checkLogin = async () => {
         const userLS = JSON.parse(localStorage.getItem('user') || '{}');
 
         if (userLS.length !== undefined) {
-            pizzaApi.post('/auth/loginEmail', { correo: userLS })
+            await pizzaApi.post('/auth/loginEmail', { correo: userLS })
                 .then(res => {
                     setUser(res.data.usuario);
 

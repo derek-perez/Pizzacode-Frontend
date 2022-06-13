@@ -9,12 +9,51 @@ export interface Producto {
     cuentaAtras?: string;
 }
 
+export interface Direccion {
+    _id: string;
+    calle: string;
+    numero: string;
+    colonia: string;
+    ciudad: string;
+    estado: string;
+    codigoPostal: string;
+    usuario: string;
+}
+
 export interface Productos {
     index: number;
     producto: Producto;
     cantidad: number;
     precioTotal: number;
 }
+
+export interface Pago {
+    _id: string;
+    fecha: string;
+    productos: [];
+    total: number;
+    usuario: string;
+    invitado: boolean;
+    efectivo: string;
+    tarjeta: string;
+}
+
+export interface Card {
+    _id: string;
+    numero: string;
+    cvv: string;
+    fechaExpiracion: string;
+    nombre: string;
+    usuario: string;
+}
+
+export interface Cards {
+    index: number;
+    producto: Producto;
+    cantidad: number;
+    precioTotal: number;
+}
+
 
 export interface CantidadContext {
     id: string;

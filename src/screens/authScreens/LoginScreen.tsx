@@ -87,7 +87,10 @@ export const LoginScreen = () => {
           confirmButtonText: 'Ok'
         })
           .then(e => {
-            e.isConfirmed || e.isDismissed && (
+            e.isConfirmed && (
+              navigate('/cuenta/perfil')
+            )
+            e.isDismissed && (
               navigate('/cuenta/perfil')
             )
           })

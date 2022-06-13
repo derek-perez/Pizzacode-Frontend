@@ -1,5 +1,6 @@
 import { faEye, faEyeSlash, faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 import { ChangeTheme } from "../../helpers/changeTheme";
 
 
@@ -11,7 +12,8 @@ export const ContraseñaContent = () => {
 
   ChangeTheme({
     id: ['contraseña', 'contraseña2'], is: 'input'
-  })
+  });
+
 
   const aparecer = (esteOjo = '', id = '', otroOjo = '') => {
     const input = document.getElementById(id)! as HTMLInputElement;

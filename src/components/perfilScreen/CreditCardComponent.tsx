@@ -1,14 +1,40 @@
+import { useEffect, useState } from "react";
+import pizzaApi from "../../api/pizzaApi";
+
+import { Card } from "../../interfaces/interfaces";
 
 
-export const CreditCardComponent = () => {
+
+export const CreditCardComponent = ({ tarjetaContent }: {tarjetaContent: Card}) => {
+
+    const [tarjeta, setTarjeta] = useState(tarjetaContent);
 
     const url = window.location.host;
 
+    useEffect(() => {
+        getTarjeta();
+    }, []);
+
+    const getTarjeta = async () => {
+        await pizzaApi.get('/tarjetas/' + tarjeta._id)
+            .then(res => {
+                setTarjeta(res.data)
+            })
+            .catch(err => {
+                console.log(err.response.data)
+            });
+    }
+
+    const numberCard1 = tarjeta.numero.substring(0, 4);
+    const numberCard2 = tarjeta.numero.substring(4, 8);
+    const numberCard3 = tarjeta.numero.substring(8, 12);
+    const numberCard4 = tarjeta.numero.substring(12, 16);
+
+
     return (
-        <div style={styles.card}>
+        <div className="cardContent" style={styles.card}>
             <div style={styles.topCard}>
-                <p style={styles.titleCard}>Visa</p>
-                <p style={styles.titleCard}>Banco de "no sé donde"</p>
+                <p style={styles.titleCard}>Tarjeta de crédito</p>
             </div>
 
             <img
@@ -16,12 +42,12 @@ export const CreditCardComponent = () => {
                 style={styles.chipImg}
             />
 
-            <p style={styles.cardNumber}>1234 &nbsp;&nbsp; 5678 &nbsp;&nbsp; 9012 &nbsp;&nbsp; 3456</p>
+            <p className="numberCard" style={styles.cardNumber}>{numberCard1}&nbsp;&nbsp;&nbsp;&nbsp;{numberCard2}&nbsp;&nbsp;&nbsp;&nbsp;{numberCard3}&nbsp;&nbsp;&nbsp;&nbsp;{numberCard4}</p>
             <div style={styles.sectionCardNumbers}>
-                <span style={{ margin: '5px 0' }}>1234</span>
-                <span style={{ margin: '5px 0' }}>01/23</span>
+                <span style={{ margin: '5px 0' }}>{tarjeta.cvv}</span>
+                <span style={{ margin: '5px 0' }}>{tarjeta.fechaExpiracion}</span>
             </div>
-            <p>Derek Josué Pérez Téllez</p>
+            <p style={{marginBottom: '0'}}>{tarjeta.nombre}</p>
         </div>
     )
 }
@@ -29,18 +55,16 @@ export const CreditCardComponent = () => {
 
 const styles = {
     card: {
+        width: '45%',
+        minWidth: '400px',
+        display: 'flex',
+        flexDirection: 'column' as 'column',
+        justifyContent: 'space-between' as 'space-between',
+        backgroundColor: 'rgba(145,14,14,0.9)',
         border: 'none',
         borderRadius: '5px',
         padding: '20px',
         margin: '20px',
-        display: 'flex',
-        width: '45%',
-        minWidth: '400px',
-        flexDirection: 'column' as 'column',
-        justifyContent: 'space-between' as 'space-between',
-        backgroundImage: 'url(../../assets/textura.png)',
-        backgroundColor: 'rgba(145,14,14,0.9)',
-        height: '260px',
         color: 'white',
         fontSize: '18px',
         boxShadow: '3px 3px 10px rgba(0, 0, 0, 0.5)'
@@ -65,6 +89,7 @@ const styles = {
         width: '100%',
         letterSpacing: '2px',
         fontSize: '23px',
+        textAlign: 'justify' as 'justify',
         marginBottom: '0'
     },
     sectionCardNumbers: {

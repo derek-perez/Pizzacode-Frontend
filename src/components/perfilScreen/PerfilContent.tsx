@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -15,16 +14,9 @@ import pizzaApi from "../../api/pizzaApi";
 export const PerfilContent = () => {
 
     const { user } = useContext(UserContext);
-    const navigate = useNavigate();
-
-    const userLS = localStorage.getItem('user');
-
+    
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        if (userLS === null || undefined || '') {
-            navigate('/join/login')
-        }
     }, []);
 
     ChangeTheme({
