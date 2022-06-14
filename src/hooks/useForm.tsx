@@ -18,6 +18,14 @@ interface UseFormProps {
     apellidos?: string;
     codigoPostal?: string;
     ciudadMunicipio?: string;
+    numero?: string;
+    fechaExpiracion?: string;
+    nombre?: string;
+    cvv?: string;
+    numeroCalle?: string;
+    calle?: string;
+    colonia?: string;
+    ciudad?: string;
 }
 
 export const useForm = (initialState: UseFormProps) => {

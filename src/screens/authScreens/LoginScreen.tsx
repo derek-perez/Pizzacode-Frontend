@@ -21,6 +21,11 @@ export const LoginScreen = () => {
 
   const url = window.location.host;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
   ChangeTheme({
     id: ['loginScreenContainer'], is: 'div'
   })

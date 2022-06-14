@@ -10,12 +10,14 @@ import { Direccion } from "../../interfaces/interfaces";
 import { UserContext } from "../../context/UserContext";
 import pizzaApi from "../../api/pizzaApi";
 import { AddNewThing } from "./AddNewThing";
+import { ModalAddNew } from "./ModalAddNew";
 
 
 export const DireccionesContent = () => {
 
-  const [directions, setDirections] = useState([] as Direccion[]);
   const { user } = useContext(UserContext);
+  const [directions, setDirections] = useState([] as Direccion[]);
+  const [opened, setOpened] = useState(false);
 
   ChangeTheme({
     id: ['direccionesContentTitle'], is: 'title'
@@ -52,6 +54,7 @@ export const DireccionesContent = () => {
                 No has añadido ninguna dirección
               </span>
               <button
+                onClick={() => setOpened(true)}
                 className="btn btn-danger"
                 style={styles.noHayBtn}
               >
@@ -63,12 +66,18 @@ export const DireccionesContent = () => {
         }
         {
           directions.length > 0 && (
-            directions.map((direction: Direccion) => (
-              <DirectionsCard key={direction._id} id={direction._id} index={'1'} />
+            directions.map((direction: Direccion, i) => (
+              <DirectionsCard key={direction._id} id={direction._id} index={i} />
             ))
           )
         }
       </div>
+
+      {
+        opened && (
+          <ModalAddNew whatIS='dirección' opened={opened} setOpened={setOpened} />
+        )
+      }
 
       {
         directions.length > 0 && (

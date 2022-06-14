@@ -82,7 +82,7 @@ export const PerfilContent = () => {
                                     nombre: nameText !== '' ? nameText : user.nombre,
                                     correo: emailText !== '' ? emailText : user.correo,
                                     telefono: telephoneText !== '' ? telephoneText : user.telefono
-                                }, { headers: { 'x-token': `${token?.split('"')[1]}` } })
+                                }, { headers: { 'x-token': `${token}` } })
                                     .then(res => {
                                         res.status === 200 && window.location.reload();
                                     })

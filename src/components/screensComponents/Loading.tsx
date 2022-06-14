@@ -26,7 +26,7 @@ const styles = {
         justifyContent: 'center',
         
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        zIndex: '9999',
+        zIndex: 1000000,
     },
     
     icon: {

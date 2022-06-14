@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
-import { faHome } from "@fortawesome/free-solid-svg-icons"
+import { faClose, faHome } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { Direccion } from "../../interfaces/interfaces";
 import { ChangeTheme } from "../../helpers/changeTheme"
 
 import pizzaApi from "../../api/pizzaApi";
+import { useNavigate } from "react-router-dom";
 
 
 interface DireccionesContentProps {
-    index: string,
+    index: number,
     id: string
 }
 
 export const DirectionsCard = ({ index, id }: DireccionesContentProps) => {
 
     const [direction, setDirection] = useState({} as Direccion);
+    const navigate = useNavigate();
 
     ChangeTheme({
         id: [
@@ -41,13 +43,28 @@ export const DirectionsCard = ({ index, id }: DireccionesContentProps) => {
             .catch(console.log);
     }
 
+    const deleteProduct = async () => {
+        const token = localStorage.getItem('token');
+
+        await pizzaApi.delete('/direcciones/' + id, { headers: { 'x-token': `${token?.split('"')[1]}` } })
+                .then(res => {
+                    if (res.status === 200) {
+                        navigate('/cuenta/perfil');
+                        window.location.reload();
+                    }
+                })
+                .catch(console.log);
+    }
+
 
     return (
         <>
             {
                 direction && (
                     <div className='directionCard' style={styles.directionContainer}>
-                        <span id={`titleDirection${index}`} style={styles.titleDirectionContainer}>Dirección #{index}: <FontAwesomeIcon icon={faHome} /></span>
+                        <span id={`titleDirection${index}`} style={styles.titleDirectionContainer}>Dirección #{index + 1}: <FontAwesomeIcon icon={faHome} /></span>
+                        <FontAwesomeIcon onClick={deleteProduct} icon={faClose} style={styles.icon} />
+
                         <div style={styles.directionText}>
                             <span id={`textItemCalle${index}`} style={styles.strong}>Calle:</span> <span style={styles.normal}>{direction.calle}</span>
                         </div>
@@ -76,10 +93,11 @@ export const DirectionsCard = ({ index, id }: DireccionesContentProps) => {
 
 const styles = {
     directionContainer: {
+        position: 'relative' as 'relative',
         width: '47%',
         minWidth: '390px',
         margin: '15px 10px',
-        border: '1px solid #ccc',
+        border: '2px solid rgb(145, 14, 14)',
         borderRadius: '5px',
         padding: '10px',
         display: 'flex',
@@ -97,6 +115,15 @@ const styles = {
         fontWeight: 'bold' as 'bold',
         color: 'rgb(145, 14, 14)'
     },
+    icon: {
+        position: 'absolute' as 'absolute',
+        top: '10px',
+        right: '10px',
+        fontSize: '20px',
+        marginLeft: '10px',
+        cursor: 'pointer',
+    },
+
     directionText: {
         width: '100%',
         padding: '10px'
@@ -108,5 +135,5 @@ const styles = {
     },
     normal: {
         fontSize: '17px'
-    },
+    }
 }

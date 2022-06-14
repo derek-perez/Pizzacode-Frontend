@@ -1,13 +1,17 @@
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import pizzaApi from "../../api/pizzaApi";
 
 import { Card } from "../../interfaces/interfaces";
 
 
 
-export const CreditCardComponent = ({ tarjetaContent }: {tarjetaContent: Card}) => {
+export const CreditCardComponent = ({ tarjetaContent, index }: { tarjetaContent: Card, index: number }) => {
 
     const [tarjeta, setTarjeta] = useState(tarjetaContent);
+    const navigate = useNavigate();
 
     const url = window.location.host;
 
@@ -30,11 +34,25 @@ export const CreditCardComponent = ({ tarjetaContent }: {tarjetaContent: Card}) 
     const numberCard3 = tarjeta.numero.substring(8, 12);
     const numberCard4 = tarjeta.numero.substring(12, 16);
 
+    const deleteProduct = async () => {
+        const token = localStorage.getItem('token');
+
+        await pizzaApi.delete('/tarjetas/' + tarjeta._id, { headers: { 'x-token': `${token?.split('"')[1]}` } })
+            .then(res => {
+                if (res.status === 200) {
+                    navigate('/cuenta/perfil');
+                    window.location.reload();
+                }
+            })
+            .catch(console.log);
+    }
+
 
     return (
         <div className="cardContent" style={styles.card}>
             <div style={styles.topCard}>
-                <p style={styles.titleCard}>Tarjeta de crédito</p>
+                <p style={styles.titleCard}>Tarjeta de crédito #{index + 1}</p>
+                <FontAwesomeIcon onClick={deleteProduct} icon={faClose} style={styles.icon} />
             </div>
 
             <img
@@ -47,7 +65,7 @@ export const CreditCardComponent = ({ tarjetaContent }: {tarjetaContent: Card}) 
                 <span style={{ margin: '5px 0' }}>{tarjeta.cvv}</span>
                 <span style={{ margin: '5px 0' }}>{tarjeta.fechaExpiracion}</span>
             </div>
-            <p style={{marginBottom: '0'}}>{tarjeta.nombre}</p>
+            <p style={{ marginBottom: '0' }}>{tarjeta.nombre}</p>
         </div>
     )
 }
@@ -72,6 +90,13 @@ const styles = {
     titleCard: {
         fontSize: '20px',
         fontWeight: 'bold' as 'bold'
+    },
+    icon: {
+        position: 'relative' as 'relative',
+        top: '-10px',
+        left: '0',
+        marginLeft: '10px',
+        cursor: 'pointer',
     },
 
     topCard: {

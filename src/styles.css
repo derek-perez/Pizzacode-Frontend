@@ -434,6 +434,11 @@ body {
         background-color: white;
         border-radius: 20px;
     }
+
+    .directionCardAdd {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
 }
 
 @media (max-width: 440px) {

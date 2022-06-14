@@ -13,6 +13,7 @@ export interface Direccion {
     _id: string;
     calle: string;
     numero: string;
+    numeroCalle: string;
     colonia: string;
     ciudad: string;
     estado: string;

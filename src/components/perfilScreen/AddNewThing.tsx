@@ -1,20 +1,33 @@
+import { useState } from "react"
+
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
+import { ModalAddNew } from "./ModalAddNew"
+
 
 export const AddNewThing = ({ algo }: { algo: string }) => {
-    
-    const handleClick = () => {
-        console.log('Deste')
-    }
+
+    const [opened, setOpened] = useState(false);
 
     return (
-        <div onClick={handleClick} style={styles.container}>
-            <span>
-                <FontAwesomeIcon icon={faPlus} /> &nbsp;
-                Agregar {algo}
-            </span>
-        </div>
+        <>
+            <div
+                onClick={() => setOpened(true)}
+                style={styles.container}
+            >
+                <span>
+                    <FontAwesomeIcon icon={faPlus} /> &nbsp;
+                    Agregar {algo}
+                </span>
+            </div>
+           
+            {
+                opened && (
+                    <ModalAddNew whatIS={algo} opened={opened} setOpened={setOpened} />
+                )
+            }
+        </>
     )
 }
 

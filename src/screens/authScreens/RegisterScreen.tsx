@@ -21,6 +21,10 @@ export const RegisterScreen = () => {
 
   const url = window.location.host;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
   ChangeTheme({
     id: ['registerScreenContainer'], is: 'div'
   })

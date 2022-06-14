@@ -10,13 +10,16 @@ import pizzaApi from "../../api/pizzaApi";
 import { Card } from "../../interfaces/interfaces";
 import { UserContext } from "../../context/UserContext";
 import { AddNewThing } from "./AddNewThing";
+import { ModalAddNew } from "./ModalAddNew";
 
 
 export const TarjetasContent = () => {
 
   const [tarjetas, setTarjetas] = useState([] as Card[]);
+  const [opened, setOpened] = useState(false);
   const { user } = useContext(UserContext);
 
+  
   ChangeTheme({
     id: ['tarjetasContentTitle'], is: 'title'
   });
@@ -51,6 +54,7 @@ export const TarjetasContent = () => {
                 No has añadido ninguna tarjeta
               </span>
               <button
+                onClick={() => setOpened(true)}
                 className="btn btn-danger"
                 style={styles.noHayBtn}
               >
@@ -62,12 +66,18 @@ export const TarjetasContent = () => {
         }
         {
           tarjetas.length > 0 && (
-            tarjetas.map((tarjeta: Card) => (
-              <CreditCardComponent key={tarjeta._id} tarjetaContent={tarjeta} />
+            tarjetas.map((tarjeta: Card, i) => (
+              <CreditCardComponent key={tarjeta._id} tarjetaContent={tarjeta} index={i} />
             ))
           )
         }
       </div>
+
+      {
+        opened && (
+          <ModalAddNew whatIS='tarjeta' opened={opened} setOpened={setOpened} />
+        )
+      }
 
       {
         tarjetas.length > 0 && (
