@@ -166,12 +166,9 @@ export const LoginScreen = () => {
             >
               Iniciar sesión
             </button>
+            <p style={{margin: '15px 0'}}>¿No tienes una cuenta? <Link to="/join/register">Regístrate</Link></p>
           </form>
 
-          <div id='linkLogin' style={styles.goToLogin}>
-            <img src='https://chugus.github.io/Pizzacode-Frontend/assets/ingresar-image.jpg' />
-            <p>¿No tienes una cuenta? <Link to="/join/register">Regístrate</Link></p>
-          </div>
         </div>
 
       </div>
@@ -237,14 +234,6 @@ const styles = {
     marginLeft: '10px',
     color: 'rgba(0, 0, 0, 0.8)',
     fontSize: '18px'
-  },
-
-  goToLogin: {
-    display: 'flex',
-    flexDirection: 'column' as 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '75px'
   }
 
 }

@@ -80,7 +80,7 @@ export const RegisterScreen = () => {
         setLoading(false);
 
         setUser(res.data.usuario);
-        
+
         localStorage.setItem('user', JSON.stringify(res.data.usuario.email));
         localStorage.setItem('token', res.data.token);
 
@@ -90,11 +90,11 @@ export const RegisterScreen = () => {
           icon: 'success',
           confirmButtonText: 'Continuar'
         })
-        .then(e => {
-          e.isConfirmed || e.isDismissed && (
-            navigate('/cuenta/perfil')
-          )
-        })
+          .then(e => {
+            e.isConfirmed || e.isDismissed && (
+              navigate('/cuenta/perfil')
+            )
+          })
 
       })
       .catch(err => {
@@ -200,12 +200,8 @@ export const RegisterScreen = () => {
             </div>
 
             <button className='btn btn-primary' type="submit">Registrarme</button>
+            <p style={{margin: '15px 0'}}>¿Ya tienes una cuenta? <Link to="/join/login">Inicia sesión</Link></p>
           </form>
-
-          <div id="linkRegister" style={styles.goToLogin}>
-            <img src='https://chugus.github.io/Pizzacode-Frontend/assets/register-image.jpg' />
-            <p>¿Ya tienes una cuenta? <Link to="/join/login">Inicia sesión</Link></p>
-          </div>
         </div>
 
       </div>
@@ -272,14 +268,6 @@ const styles = {
     marginLeft: '10px',
     color: 'rgba(0, 0, 0, 0.8)',
     fontSize: '18px'
-  },
-
-  goToLogin: {
-    display: 'flex',
-    flexDirection: 'column' as 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '75px'
   }
 
 }
