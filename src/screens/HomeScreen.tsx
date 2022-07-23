@@ -20,7 +20,7 @@ interface PropsCategoria {
 export const HomeScreen = () => {
 
   const [categorias, setCategorias] = useState([] as PropsCategoria[]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,8 +39,10 @@ export const HomeScreen = () => {
   });
 
   const obtenerCategoria = async (id = '') => {
-    const { data } = await pizzaApi.get('/categorias/' + id);
+    const { data, status } = await pizzaApi.get('/categorias/' + id);
 
+    if (status === 200) setLoading(false);
+    
     categorias.filter(ctg => {
       (ctg._id === data._id)
         ? categorias.splice(categorias.indexOf(ctg), 1)
@@ -63,7 +65,15 @@ export const HomeScreen = () => {
 
       {
         loading && (
-          <i className='fa fa-times'></i>
+          <div style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '50px 0'
+          }}>
+            <i className="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
         )
       }
 
