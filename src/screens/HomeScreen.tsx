@@ -20,6 +20,7 @@ interface PropsCategoria {
 export const HomeScreen = () => {
 
   const [categorias, setCategorias] = useState([] as PropsCategoria[]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,6 +60,12 @@ export const HomeScreen = () => {
   return (
     <div id='home'>
       <Carousel />
+
+      {
+        loading && (
+          <i className='fa fa-times'></i>
+        )
+      }
 
       {
         categorias.map(categoria => (
