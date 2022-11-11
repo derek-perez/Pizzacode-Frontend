@@ -125,7 +125,7 @@ export const MenuScreen = () => {
       <div style={styles.imgContainer}>
         <div id='introMenu' style={styles.introContainer}>
           <img
-            src='https://chugus.github.io/Pizzacode-Frontend/assets/pizza-logo-dark.png'
+            src='https://raw.githubusercontent.com/derek-perez/Pizzacode-Frontend/main/public/assets/pizza-logo-dark.png'
             style={styles.imgImgMain}
           />
           <p style={styles.textImgMain}>Mira lo que tenemos para ofrecerte:</p>
@@ -197,7 +197,7 @@ const styles = {
     boxShadow: '0 5px 10px rgba(0, 0, 0, 0.7)',
     minHeight: '550px',
     maxHeight: '550px',
-    background: 'url(./Pizzacode-Frontend/assets/menuImg.jpg)',
+    background: 'url(https://raw.githubusercontent.com/derek-perez/Pizzacode-Frontend/main/public/assets/menuImg.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',

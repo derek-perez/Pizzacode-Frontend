@@ -39,7 +39,7 @@ export const Footer = () => {
 
           <img 
             style={styles.logo} 
-            src='https://chugus.github.io/Pizzacode-Frontend/assets/pizza-logo-dark.png'
+            src='https://raw.githubusercontent.com/derek-perez/Pizzacode-Frontend/main/public/assets/pizza-logo-dark.png'
             />
 
           <p>Derek Pérez | Copyright &copy;2022</p>

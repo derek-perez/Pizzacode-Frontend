@@ -56,7 +56,7 @@ export const CreditCardComponent = ({ tarjetaContent, index }: { tarjetaContent:
             </div>
 
             <img
-                src='https://chugus.github.io/Pizzacode-Frontend/assets/chip-card.png'
+                src='https://raw.githubusercontent.com/derek-perez/Pizzacode-Frontend/main/public/assets/chip-card.png'
                 style={styles.chipImg}
             />
 

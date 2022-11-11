@@ -315,7 +315,7 @@ export const ModalAddNew = ({ whatIS, opened, setOpened }: Props) => {
                                     </div>
 
                                     <img
-                                        src='https://chugus.github.io/Pizzacode-Frontend/assets/chip-card.png'
+                                        src='https://raw.githubusercontent.com/derek-perez/Pizzacode-Frontend/main/public/assets/chip-card.png'
                                         style={styles.chipImg}
                                     />
 

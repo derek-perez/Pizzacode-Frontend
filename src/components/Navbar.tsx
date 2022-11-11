@@ -69,7 +69,7 @@ export const Navbar = () => {
       <div>
         <Link to='/'>
           <img
-            src='https://chugus.github.io/Pizzacode-Frontend/assets/pizza-logo-dark.png'
+            src='https://raw.githubusercontent.com/derek-perez/Pizzacode-Frontend/main/public/assets/pizza-logo-dark.png'
             alt='Ir a inicio'
             style={styles.logo}
           />
